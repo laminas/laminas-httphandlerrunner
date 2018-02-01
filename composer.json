@@ -1,0 +1,57 @@
+{
+    "name": "zendframework/zend-serverhandler-runner",
+    "description": "<package description; should match repository description>",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "components",
+        "zf",
+        "zendframework",
+        "<individual keywords for current package>"
+    ],
+    "support": {
+        "docs": "https://docs.zendframework.com/zend-serverhandler-runner/",
+        "issues": "https://github.com/zendframework/zend-serverhandler-runner/issues",
+        "source": "https://github.com/zendframework/zend-serverhandler-runner",
+        "rss": "https://github.com/zendframework/zend-serverhandler-runner/releases.atom",
+        "slack": "https://zendframework-slack.herokuapp.com",
+        "forum": "https://discourse.zendframework.com/c/questions/components"
+    },
+    "require": {
+        "php": "^7.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.3",
+        "zendframework/zend-coding-standard": "~1.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Zend\\ServerHandler\\Runner\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ZendTest\\ServerHandler\\Runner\\": "test/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        },
+        "zf": {
+            "config-provider": "Zend\\ServerHandler\\Runner\\ConfigProvider"
+        }
+    },
+    "scripts": {
+        "check": [
+            "@cs-check",
+            "@test"
+        ],
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf",
+        "test": "phpunit --colors=always",
+        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
+    }
+}
