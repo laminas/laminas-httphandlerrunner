@@ -1,21 +1,22 @@
 {
-    "name": "zendframework/zend-serverhandler-runner",
+    "name": "zendframework/zend-httphandlerrunner",
     "description": "Execute PSR-15 RequestHandlerInterface instances and emit responses they generate.",
     "license": "BSD-3-Clause",
     "keywords": [
         "components",
+        "expressive",
         "zf",
         "zendframework",
         "psr-7",
         "psr-15"
     ],
     "support": {
-        "docs": "https://docs.zendframework.com/zend-serverhandler-runner/",
-        "issues": "https://github.com/zendframework/zend-serverhandler-runner/issues",
-        "source": "https://github.com/zendframework/zend-serverhandler-runner",
-        "rss": "https://github.com/zendframework/zend-serverhandler-runner/releases.atom",
+        "docs": "https://docs.zendframework.com/zend-httphandlerrunner/",
+        "issues": "https://github.com/zendframework/zend-httphandlerrunner/issues",
+        "source": "https://github.com/zendframework/zend-httphandlerrunner",
+        "rss": "https://github.com/zendframework/zend-httphandlerrunner/releases.atom",
         "slack": "https://zendframework-slack.herokuapp.com",
-        "forum": "https://discourse.zendframework.com/c/questions/components"
+        "forum": "https://discourse.zendframework.com/c/questions/expressive"
     },
     "require": {
         "php": "^7.1",
@@ -30,12 +31,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Zend\\ServerHandler\\Runner\\": "src/"
+            "Zend\\HttpHandlerRunner\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "ZendTest\\ServerHandler\\Runner\\": "test/"
+            "ZendTest\\HttpHandlerRunner\\": "test/"
         },
         "files": [
             "test/TestAsset/Functions.php",
@@ -50,7 +51,7 @@
             "dev-master": "1.0-dev"
         },
         "zf": {
-            "config-provider": "Zend\\ServerHandler\\Runner\\ConfigProvider"
+            "config-provider": "Zend\\HttpHandlerRunner\\ConfigProvider"
         }
     },
     "scripts": {

@@ -1,18 +1,18 @@
 <?php
 /**
- * @see       https://github.com/zendframework/zend-serverhandler-runner for the canonical source repository
+ * @see       https://github.com/zendframework/zend-httphandlerrunner for the canonical source repository
  * @copyright Copyright (c) 2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-serverhandler-runner/blob/master/LICENSE.md New BSD License
+ * @license   https://github.com/zendframework/zend-httphandlerrunner/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace ZendTest\ServerHandler\Runner\Emitter;
+namespace ZendTest\HttpHandlerRunner\Emitter;
 
 use PHPUnit\Framework\TestCase;
 use Zend\Diactoros\Response;
-use Zend\ServerHandler\Runner\Emitter\SapiEmitter;
-use ZendTest\ServerHandler\Runner\TestAsset\HeaderStack;
+use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
+use ZendTest\HttpHandlerRunner\TestAsset\HeaderStack;
 
 abstract class AbstractEmitterTest extends TestCase
 {

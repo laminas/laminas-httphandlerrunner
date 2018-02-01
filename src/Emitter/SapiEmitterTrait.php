@@ -1,16 +1,16 @@
 <?php
 /**
- * @see       https://github.com/zendframework/zend-serverhandler-runner for the canonical source repository
+ * @see       https://github.com/zendframework/zend-httphandlerrunner for the canonical source repository
  * @copyright Copyright (c) 2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-serverhandler-runner/blob/master/LICENSE.md New BSD License
+ * @license   https://github.com/zendframework/zend-httphandlerrunner/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace Zend\ServerHandler\Runner\Emitter;
+namespace Zend\HttpHandlerRunner\Emitter;
 
 use Psr\Http\Message\ResponseInterface;
-use Zend\ServerHandler\Runner\Exception\EmitterException;
+use Zend\HttpHandlerRunner\Exception\EmitterException;
 
 trait SapiEmitterTrait
 {
@@ -44,7 +44,7 @@ trait SapiEmitterTrait
      * `emitHeaders()` in order to prevent PHP from changing the status code of
      * the emitted response.
      *
-     * @see \Zend\ServerHandler\Runner\Emitter\SapiEmitterTrait::emitHeaders()
+     * @see \Zend\HttpHandlerRunner\Emitter\SapiEmitterTrait::emitHeaders()
      */
     private function emitStatusLine(ResponseInterface $response) : void
     {

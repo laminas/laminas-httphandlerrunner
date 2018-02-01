@@ -1,3 +1,3 @@
-# zend-serverhandler-runner
+# zend-httphandlerrunner
 
 This component provides ...

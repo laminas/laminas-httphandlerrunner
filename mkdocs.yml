@@ -3,7 +3,7 @@ site_dir: docs/html
 pages:
     - index.md
     - Introduction: intro.md
-site_name: Component Name Goes Here
-site_description: 'Component Description goes here'
-repo_url: 'https://github.com/zendframework/zend-serverhandler-runner'
+site_name: zend-httphandlerrunner
+site_description: 'Execute PSR-15 RequestHandlerInterface instances and emit responses they generate.'
+repo_url: 'https://github.com/zendframework/zend-httphandlerrunner'
 copyright: 'Copyright (c) 2018 <a href="http://www.zend.com/">Zend Technologies USA Inc.</a>'

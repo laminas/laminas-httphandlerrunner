@@ -18,9 +18,9 @@
  * @license   https://github.com/zendframework/zend-serverhandler-runnder/blob/master/LICENSE.md New BSD License
  */
 
-namespace Zend\ServerHandler\Runner\Emitter;
+namespace Zend\HttpHandlerRunner\Emitter;
 
-use ZendTest\ServerHandler\Runner\TestAsset\HeaderStack;
+use ZendTest\HttpHandlerRunner\TestAsset\HeaderStack;
 
 /**
  * Have headers been sent?

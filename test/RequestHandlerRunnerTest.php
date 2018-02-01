@@ -1,13 +1,13 @@
 <?php
 /**
- * @see       https://github.com/zendframework/zend-serverhandler-runner for the canonical source repository
+ * @see       https://github.com/zendframework/zend-httphandlerrunner for the canonical source repository
  * @copyright Copyright (c) 2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-serverhandler-runner/blob/master/LICENSE.md New BSD License
+ * @license   https://github.com/zendframework/zend-httphandlerrunner/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace ZendTest\ServerHandler\Runner;
+namespace ZendTest\HttpHandlerRunner;
 
 use Exception;
 use PHPUnit\Framework\Assert;
@@ -16,8 +16,8 @@ use Prophecy\Argument;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Zend\ServerHandler\Runner\Emitter\EmitterInterface;
-use Zend\ServerHandler\Runner\RequestHandlerRunner;
+use Zend\HttpHandlerRunner\Emitter\EmitterInterface;
+use Zend\HttpHandlerRunner\RequestHandlerRunner;
 
 class RequestHandlerRunnerTest extends TestCase
 {

@@ -1,13 +1,13 @@
 <?php
 /**
- * @see       https://github.com/zendframework/zend-serverhandler-runner for the canonical source repository
+ * @see       https://github.com/zendframework/zend-httphandlerrunner for the canonical source repository
  * @copyright Copyright (c) 2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-serverhandler-runner/blob/master/LICENSE.md New BSD License
+ * @license   https://github.com/zendframework/zend-httphandlerrunner/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace ZendTest\ServerHandler\Runner\Emitter;
+namespace ZendTest\HttpHandlerRunner\Emitter;
 
 use Prophecy\Argument;
 use Psr\Http\Message\StreamInterface;
@@ -17,8 +17,8 @@ use Zend\Diactoros\Response\EmptyResponse;
 use Zend\Diactoros\Response\JsonResponse;
 use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Diactoros\Response\TextResponse;
-use Zend\ServerHandler\Runner\Emitter\SapiStreamEmitter;
-use ZendTest\ServerHandler\Runner\TestAsset\HeaderStack;
+use Zend\HttpHandlerRunner\Emitter\SapiStreamEmitter;
+use ZendTest\HttpHandlerRunner\TestAsset\HeaderStack;
 
 class SapiStreamEmitterTest extends AbstractEmitterTest
 {
