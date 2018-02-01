@@ -1,0 +1,40 @@
+<?php
+/**
+ * @see       https://github.com/zendframework/zend-serverhandler-runner for the canonical source repository
+ * @copyright Copyright (c) 2018 Zend Technologies USA Inc. (https://www.zend.com)
+ * @license   https://github.com/zendframework/zend-serverhandler-runner/blob/master/LICENSE.md New BSD License
+ */
+
+declare(strict_types=1);
+
+namespace Zend\ServerHandler\Runner\Emitter;
+
+use Psr\Http\Message\ResponseInterface;
+
+class SapiEmitter implements EmitterInterface
+{
+    use SapiEmitterTrait;
+
+    /**
+     * Emits a response for a PHP SAPI environment.
+     *
+     * Emits the status line and headers via the header() function, and the
+     * body content via the output buffer.
+     */
+    public function emit(ResponseInterface $response) : void
+    {
+        $this->assertNoPreviousOutput();
+
+        $this->emitHeaders($response);
+        $this->emitStatusLine($response);
+        $this->emitBody($response);
+    }
+
+    /**
+     * Emit the message body.
+     */
+    private function emitBody(ResponseInterface $response) : void
+    {
+        echo $response->getBody();
+    }
+}
