@@ -23,7 +23,7 @@ class SapiStreamEmitter implements EmitterInterface
      *
      * @param int $maxBufferLength Maximum output buffering size for each iteration
      */
-    public function emit(ResponseInterface $response, int $maxBufferLength = 8192) : void
+    public function emit(ResponseInterface $response, int $maxBufferLength = 8192) : bool
     {
         $this->assertNoPreviousOutput();
         $this->emitHeaders($response);
@@ -33,10 +33,11 @@ class SapiStreamEmitter implements EmitterInterface
 
         if (is_array($range) && $range[0] === 'bytes') {
             $this->emitBodyRange($range, $response, $maxBufferLength);
-            return;
+            return true;
         }
 
         $this->emitBody($response, $maxBufferLength);
+        return true;
     }
 
     /**
