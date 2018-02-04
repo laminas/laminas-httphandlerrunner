@@ -80,34 +80,4 @@ class RequestHandlerRunnerTest extends TestCase
 
         $this->assertNull($runner->run());
     }
-
-    public function testRunPassesRequestPassedDuringInvocationToHandler()
-    {
-        $request = $this->prophesize(ServerRequestInterface::class)->reveal();
-
-        $serverRequestFactory = function () {
-            Assert::fail('Should never hit server request factory');
-        };
-
-        $errorResponseGenerator = function ($e) {
-            Assert::fail('Should never hit error response generator');
-        };
-
-        $response = $this->prophesize(ResponseInterface::class)->reveal();
-
-        $handler = $this->prophesize(RequestHandlerInterface::class);
-        $handler->handle($request)->willReturn($response);
-
-        $emitter = $this->prophesize(EmitterInterface::class);
-        $emitter->emit($response)->shouldBeCalled();
-
-        $runner = new RequestHandlerRunner(
-            $handler->reveal(),
-            $emitter->reveal(),
-            $serverRequestFactory,
-            $errorResponseGenerator
-        );
-
-        $this->assertNull($runner->run($request));
-    }
 }

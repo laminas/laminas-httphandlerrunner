@@ -73,10 +73,10 @@ class RequestHandlerRunner
     /**
      * Run the application
      */
-    public function run(ServerRequestInterface $request = null) : void
+    public function run() : void
     {
         try {
-            $request = $request ?: ($this->serverRequestFactory)();
+            $request = ($this->serverRequestFactory)();
         } catch (Throwable $e) {
             // Error in generating the request
             $this->emitMarshalServerRequestException($e);
