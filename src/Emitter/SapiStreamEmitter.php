@@ -39,12 +39,12 @@ class SapiStreamEmitter implements EmitterInterface
 
         $range = $this->parseContentRange($response->getHeaderLine('Content-Range'));
 
-        if (is_array($range) && $range[0] === 'bytes') {
-            $this->emitBodyRange($range, $response);
+        if (null === $range || 'bytes' !== $range[0]) {
+            $this->emitBody($response);
             return true;
         }
 
-        $this->emitBody($response);
+        $this->emitBodyRange($range, $response);
         return true;
     }
 
@@ -93,7 +93,7 @@ class SapiStreamEmitter implements EmitterInterface
 
         $remaining = $length;
 
-        while ($remaining >= $maxBufferLength && ! $body->eof()) {
+        while ($remaining >= $this->maxBufferLength && ! $body->eof()) {
             $contents   = $body->read($this->maxBufferLength);
             $remaining -= strlen($contents);
 
@@ -109,19 +109,20 @@ class SapiStreamEmitter implements EmitterInterface
      * Parse content-range header
      * http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.16
      *
-     * @return false|array [unit, first, last, length]; returns false if no
+     * @return null|array [unit, first, last, length]; returns null if no
      *     content range or an invalid content range is provided
      */
-    private function parseContentRange(string $header)
+    private function parseContentRange(string $header) : ?array
     {
-        if (preg_match('/(?P<unit>[\w]+)\s+(?P<first>\d+)-(?P<last>\d+)\/(?P<length>\d+|\*)/', $header, $matches)) {
-            return [
-                $matches['unit'],
-                (int) $matches['first'],
-                (int) $matches['last'],
-                $matches['length'] === '*' ? '*' : (int) $matches['length'],
-            ];
+        if (! preg_match('/(?P<unit>[\w]+)\s+(?P<first>\d+)-(?P<last>\d+)\/(?P<length>\d+|\*)/', $header, $matches)) {
+            return null;
         }
-        return false;
+
+        return [
+            $matches['unit'],
+            (int) $matches['first'],
+            (int) $matches['last'],
+            $matches['length'] === '*' ? '*' : (int) $matches['length'],
+        ];
     }
 }
