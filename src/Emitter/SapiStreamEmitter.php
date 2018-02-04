@@ -16,14 +16,22 @@ class SapiStreamEmitter implements EmitterInterface
     use SapiEmitterTrait;
 
     /**
+     * @var int Maximum output buffering size for each iteration.
+     */
+    private $maxBufferLength;
+
+    public function __construct(int $maxBufferLength = 8192)
+    {
+        $this->maxBufferLength = $maxBufferLength;
+    }
+
+    /**
      * Emits a response for a PHP SAPI environment.
      *
      * Emits the status line and headers via the header() function, and the
      * body content via the output buffer.
-     *
-     * @param int $maxBufferLength Maximum output buffering size for each iteration
      */
-    public function emit(ResponseInterface $response, int $maxBufferLength = 8192) : bool
+    public function emit(ResponseInterface $response) : bool
     {
         $this->assertNoPreviousOutput();
         $this->emitHeaders($response);
@@ -32,18 +40,18 @@ class SapiStreamEmitter implements EmitterInterface
         $range = $this->parseContentRange($response->getHeaderLine('Content-Range'));
 
         if (is_array($range) && $range[0] === 'bytes') {
-            $this->emitBodyRange($range, $response, $maxBufferLength);
+            $this->emitBodyRange($range, $response);
             return true;
         }
 
-        $this->emitBody($response, $maxBufferLength);
+        $this->emitBody($response);
         return true;
     }
 
     /**
      * Emit the message body.
      */
-    private function emitBody(ResponseInterface $response, int $maxBufferLength) : void
+    private function emitBody(ResponseInterface $response) : void
     {
         $body = $response->getBody();
 
@@ -57,14 +65,14 @@ class SapiStreamEmitter implements EmitterInterface
         }
 
         while (! $body->eof()) {
-            echo $body->read($maxBufferLength);
+            echo $body->read($this->maxBufferLength);
         }
     }
 
     /**
      * Emit a range of the message body.
      */
-    private function emitBodyRange(array $range, ResponseInterface $response, int $maxBufferLength) : void
+    private function emitBodyRange(array $range, ResponseInterface $response) : void
     {
         list($unit, $first, $last, $length) = $range;
 
@@ -86,7 +94,7 @@ class SapiStreamEmitter implements EmitterInterface
         $remaining = $length;
 
         while ($remaining >= $maxBufferLength && ! $body->eof()) {
-            $contents   = $body->read($maxBufferLength);
+            $contents   = $body->read($this->maxBufferLength);
             $remaining -= strlen($contents);
 
             echo $contents;
