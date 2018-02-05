@@ -10,6 +10,3 @@ This component provides  utilities for:
 
 The `RequestHandlerRunner` will be used in the bootstrap of your application to
 fire off the `RequestHandlerInterface` representing your application.
-
-If you are developing an async application, you will more than likely not want
-to use this package.
