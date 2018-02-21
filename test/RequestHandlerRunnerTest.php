@@ -13,6 +13,8 @@ use Exception;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Throwable;
+use TypeError;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -79,5 +81,61 @@ class RequestHandlerRunnerTest extends TestCase
         );
 
         $this->assertNull($runner->run());
+    }
+
+    public function testRaisesTypeErrorIfServerRequestFactoryDoesNotReturnARequestInstance()
+    {
+        $serverRequestFactory = function () {
+            return null;
+        };
+
+        $response = $this->prophesize(ResponseInterface::class)->reveal();
+        $errorResponseGenerator = function (Throwable $e) use ($response) {
+            Assert::assertInstanceOf(TypeError::class, $e);
+            return $response;
+        };
+
+        $handler = $this->prophesize(RequestHandlerInterface::class);
+        $handler->handle(Argument::any())->shouldNotBeCalled();
+
+        $emitter = $this->prophesize(EmitterInterface::class);
+        $emitter->emit($response)->shouldBeCalled();
+
+        $runner = new RequestHandlerRunner(
+            $handler->reveal(),
+            $emitter->reveal(),
+            $serverRequestFactory,
+            $errorResponseGenerator
+        );
+
+        $this->assertNull($runner->run());
+    }
+
+    public function testRaisesTypeErrorIfServerErrorResponseGeneratorFactoryDoesNotReturnAResponse()
+    {
+        $serverRequestFactory = function () {
+            return null;
+        };
+
+        $errorResponseGenerator = function (Throwable $e) {
+            Assert::assertInstanceOf(TypeError::class, $e);
+            return null;
+        };
+
+        $handler = $this->prophesize(RequestHandlerInterface::class);
+        $handler->handle(Argument::any())->shouldNotBeCalled();
+
+        $emitter = $this->prophesize(EmitterInterface::class);
+        $emitter->emit(Argument::any())->shouldNotBeCalled();
+
+        $runner = new RequestHandlerRunner(
+            $handler->reveal(),
+            $emitter->reveal(),
+            $serverRequestFactory,
+            $errorResponseGenerator
+        );
+
+        $this->expectException(TypeError::class);
+        $runner->run();
     }
 }
