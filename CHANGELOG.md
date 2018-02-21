@@ -24,7 +24,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - Nothing.
 
-## 1.0.1 - TBD
+## 1.0.1 - 2018-02-21
 
 ### Added
 
@@ -32,7 +32,11 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
-- Nothing.
+- [#2](https://github.com/zendframework/zend-httphandlerrunner/pull/2) modifies
+  how the request and error response factories are composed with the
+  `RequestHandlerRunner` class. In both cases, they are now encapsulated in a
+  closure which also defines a return type hint, ensuring that if the factories
+  produce an invalid return type, a PHP `TypeError` will be raised.
 
 ### Deprecated
 

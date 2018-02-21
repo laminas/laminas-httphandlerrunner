@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Zend\HttpHandlerRunner;
 
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Throwable;
@@ -66,8 +67,16 @@ class RequestHandlerRunner
     ) {
         $this->handler = $handler;
         $this->emitter = $emitter;
-        $this->serverRequestFactory = $serverRequestFactory;
-        $this->serverRequestErrorResponseGenerator = $serverRequestErrorResponseGenerator;
+
+        // Factories are cast as Closures to ensure return type safety.
+        $this->serverRequestFactory = function () use ($serverRequestFactory) : ServerRequestInterface {
+            return $serverRequestFactory();
+        };
+
+        $this->serverRequestErrorResponseGenerator =
+            function (Throwable $exception) use ($serverRequestErrorResponseGenerator) : ResponseInterface {
+                return $serverRequestErrorResponseGenerator($exception);
+            };
     }
 
     /**
