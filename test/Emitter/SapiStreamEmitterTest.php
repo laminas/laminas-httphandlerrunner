@@ -20,6 +20,23 @@ use Zend\Diactoros\Response\TextResponse;
 use Zend\HttpHandlerRunner\Emitter\SapiStreamEmitter;
 use ZendTest\HttpHandlerRunner\TestAsset\HeaderStack;
 
+use function gc_collect_cycles;
+use function gc_disable;
+use function gc_enable;
+use function is_callable;
+use function json_encode;
+use function max;
+use function memory_get_usage;
+use function ob_end_clean;
+use function ob_end_flush;
+use function ob_get_clean;
+use function ob_start;
+use function str_repeat;
+use function strlen;
+use function substr;
+
+use const SEEK_SET;
+
 class SapiStreamEmitterTest extends AbstractEmitterTest
 {
     public function setUp()

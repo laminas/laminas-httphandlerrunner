@@ -12,6 +12,14 @@ namespace Zend\HttpHandlerRunner\Emitter;
 use Psr\Http\Message\ResponseInterface;
 use Zend\HttpHandlerRunner\Exception\EmitterException;
 
+use function header;
+use function headers_sent;
+use function ob_get_length;
+use function ob_get_level;
+use function sprintf;
+use function str_replace;
+use function ucwords;
+
 trait SapiEmitterTrait
 {
     /**
