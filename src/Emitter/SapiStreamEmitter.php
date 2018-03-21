@@ -11,6 +11,10 @@ namespace Zend\HttpHandlerRunner\Emitter;
 
 use Psr\Http\Message\ResponseInterface;
 
+use function preg_match;
+use function strlen;
+use function substr;
+
 class SapiStreamEmitter implements EmitterInterface
 {
     use SapiEmitterTrait;

@@ -11,7 +11,7 @@
  *   emitted, and we can test to see their values.
  * - header(): we want to aggregate calls to this function.
  *
- * It pushes headers into the HeaderStack class defined in Functions.php.
+ * It pushes headers into the HeaderStack class defined in HeaderStack.php.
  *
  * @see       https://github.com/zendframework/zend-serverhandler-runnder for the canonical source repository
  * @copyright Copyright (c) 2018 Zend Technologies USA Inc. (https://www.zend.com)
