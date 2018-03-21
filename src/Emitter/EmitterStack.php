@@ -11,7 +11,6 @@ namespace Zend\HttpHandlerRunner\Emitter;
 
 use Psr\Http\Message\ResponseInterface;
 use SplStack;
-use Zend\HttpHandlerRunner\Emitter\EmitterInterface;
 use Zend\HttpHandlerRunner\Exception;
 
 /**
