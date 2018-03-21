@@ -14,6 +14,9 @@ use Zend\Diactoros\Response;
 use Zend\HttpHandlerRunner\Emitter\SapiEmitter;
 use ZendTest\HttpHandlerRunner\TestAsset\HeaderStack;
 
+use function ob_end_clean;
+use function ob_start;
+
 abstract class AbstractEmitterTest extends TestCase
 {
     /**
