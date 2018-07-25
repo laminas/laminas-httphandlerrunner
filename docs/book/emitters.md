@@ -106,7 +106,7 @@ $conditionalEmitter = new class ($sapiStreamEmitter) implements EmitterInterface
         $this->emitter = $emitter;
     }
 
-    public function emit(ResponseInterface) : bool
+    public function emit(ResponseInterface $response) : bool
     {
         if (! $response->hasHeader('Content-Disposition')
             && ! $response->hasHeader('Content-Range')
