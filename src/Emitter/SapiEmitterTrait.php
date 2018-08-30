@@ -96,8 +96,6 @@ trait SapiEmitterTrait
      */
     private function filterHeader(string $header) : string
     {
-        $filtered = str_replace('-', ' ', $header);
-        $filtered = ucwords($filtered);
-        return str_replace(' ', '-', $filtered);
+        return ucwords($header, '-');
     }
 }
