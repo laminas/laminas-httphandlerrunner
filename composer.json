@@ -47,7 +47,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0-dev"
+            "dev-master": "1.1.x-dev",
+            "dev-develop": "1.2.x-dev"
         },
         "zf": {
             "config-provider": "Zend\\HttpHandlerRunner\\ConfigProvider"
