@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Nothing.
+- [#10](https://github.com/zendframework/zend-httphandlerrunner/pull/10) adds support for zend-diactoros v2 releases.
 
 ### Changed
 
