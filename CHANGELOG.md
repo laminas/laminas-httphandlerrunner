@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## 1.1.0 - 2019-02-19
+
+### Added
+
+- [#10](https://github.com/zendframework/zend-httphandlerrunner/pull/10) adds support for zend-diactoros v2 releases.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
 ## 1.0.2 - 2019-02-19
 
 ### Added
