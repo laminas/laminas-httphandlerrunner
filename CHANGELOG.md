@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Nothing.
+- [#9](https://github.com/zendframework/zend-httphandlerrunner/pull/9) adds support for PHP 7.3.
 
 ### Changed
 
