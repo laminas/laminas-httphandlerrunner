@@ -1,7 +1,7 @@
-# zend-httphandlerrunner
+# laminas-httphandlerrunner
 
-[![Build Status](https://secure.travis-ci.org/zendframework/zend-httphandlerrunner.svg?branch=master)](https://secure.travis-ci.org/zendframework/zend-httphandlerrunner)
-[![Coverage Status](https://coveralls.io/repos/github/zendframework/zend-httphandlerrunner/badge.svg?branch=master)](https://coveralls.io/github/zendframework/zend-httphandlerrunner?branch=master)
+[![Build Status](https://travis-ci.org/laminas/laminas-httphandlerrunner.svg?branch=master)](https://travis-ci.org/laminas/laminas-httphandlerrunner)
+[![Coverage Status](https://coveralls.io/repos/github/laminas/laminas-httphandlerrunner/badge.svg?branch=master)](https://coveralls.io/github/laminas/laminas-httphandlerrunner?branch=master)
 
 This library provides utilities for:
 
@@ -19,15 +19,15 @@ fire off the `RequestHandlerInterface` representing your application.
 Run the following to install this library:
 
 ```bash
-$ composer require zendframework/zend-httphandlerrunner
+$ composer require laminas/laminas-httphandlerrunner
 ```
 
 ## Documentation
 
-Documentation is [in the doc tree](docs/book/), and can be compiled using [mkdocs](http://www.mkdocs.org):
+Documentation is [in the doc tree](docs/book/), and can be compiled using [mkdocs](https://www.mkdocs.org):
 
 ```bash
 $ mkdocs build
 ```
 
-You may also [browse the documentation online](https://docs.zendframework.com/zend-httphandlerrunner/).
+You may also [browse the documentation online](https://docs.laminas.dev/laminas-httphandlerrunner/).

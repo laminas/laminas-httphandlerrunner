@@ -1,13 +1,12 @@
 docs_dir: docs/book
 site_dir: docs/html
-pages:
+nav:
     - index.md
     - Introduction: intro.md
     - Usage: usage.md
     - Reference:
       - "Request Handler Runner": runner.md
       - Emitters: emitters.md
-site_name: zend-httphandlerrunner
+site_name: laminas-httphandlerrunner
 site_description: 'Execute PSR-15 RequestHandlerInterface instances and emit responses they generate.'
-repo_url: 'https://github.com/zendframework/zend-httphandlerrunner'
-copyright: 'Copyright (c) 2018 <a href="http://www.zend.com/">Zend Technologies USA Inc.</a>'
+repo_url: 'https://github.com/laminas/laminas-httphandlerrunner'
