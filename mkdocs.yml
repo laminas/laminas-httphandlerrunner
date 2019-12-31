@@ -2,11 +2,12 @@ docs_dir: docs/book
 site_dir: docs/html
 nav:
     - index.md
-    - Introduction: intro.md
-    - Usage: usage.md
-    - Reference:
-      - "Request Handler Runner": runner.md
-      - Emitters: emitters.md
+    - { Introduction: intro.md }
+    - { Usage: usage.md }
+    - { Reference: [{ 'Request Handler Runner': runner.md }, { Emitters: emitters.md }] }
 site_name: laminas-httphandlerrunner
 site_description: 'Execute PSR-15 RequestHandlerInterface instances and emit responses they generate.'
 repo_url: 'https://github.com/laminas/laminas-httphandlerrunner'
+extra:
+    project: Components
+    project_url: 'https://docs.laminas.dev'
