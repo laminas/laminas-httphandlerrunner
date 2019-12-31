@@ -1,13 +1,14 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-httphandlerrunner for the canonical source repository
- * @copyright Copyright (c) 2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-httphandlerrunner/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-httphandlerrunner for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-httphandlerrunner/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-httphandlerrunner/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace Zend\HttpHandlerRunner;
+namespace Laminas\HttpHandlerRunner;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

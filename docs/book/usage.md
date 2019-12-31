@@ -4,7 +4,7 @@ To install this package, run the following [composer](https://getcomposer.org)
 command:
 
 ```bash
-$ composer require zendframework/zend-httphandlerrunner
+$ composer require laminas/laminas-httphandlerrunner
 ```
 
 The package provides both [emitters](emitters.md) and the [request handler
@@ -21,8 +21,8 @@ The example below instantiates the runner manually by pulling its dependencies
 from a configured [PSR-11](https://www.php-fig.org/psr/psr-11) container.
 
 ```php
-use Zend\HttpHandlerRunner\Emitter\EmitterStack;
-use Zend\HttpHandlerRunner\RequestHandlerRunner;
+use Laminas\HttpHandlerRunner\Emitter\EmitterStack;
+use Laminas\HttpHandlerRunner\RequestHandlerRunner;
 
 $container = require 'config/container.php';
 

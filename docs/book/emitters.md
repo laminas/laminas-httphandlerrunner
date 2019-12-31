@@ -4,7 +4,7 @@ Emitters are used to _emit_ a [PSR-7](https://www.php-fig.org/psr/psr-7)
 response. This should generally happen when running under a traditional PHP
 server API that uses output buffers, such as Apache or php-fpm.
 
-Emitters are described by `Zend\HttpHandlerRunner\Emitter\EmitterInterface`:
+Emitters are described by `Laminas\HttpHandlerRunner\Emitter\EmitterInterface`:
 
 ```php
 use Psr\Http\Message\ResponseInterface;
@@ -34,7 +34,7 @@ it.
 
 ## SapiEmitter
 
-`Zend\HttpHandlerRunner\Emitter\SapiEmitter` accepts the response instance, and
+`Laminas\HttpHandlerRunner\Emitter\SapiEmitter` accepts the response instance, and
 uses the built-in PHP function `header()` to emit both the headers as well as
 the status line. It then uses `echo` to emit the response body.
 
@@ -53,7 +53,7 @@ This emitter can _always_ handle a response, and thus _always_ returns true.
 
 ## SapiStreamEmitter
 
-`Zend\HttpHandlerRunner\Emitter\SapiStreamEmitter` behaves similarly to the
+`Laminas\HttpHandlerRunner\Emitter\SapiStreamEmitter` behaves similarly to the
 `SapiEmitter`, with two key differences:
 
 - It allows emitting a a _content range_, if a `Content-Range` header is
@@ -69,7 +69,7 @@ This emitter can _always_ handle a response, and thus _always_ returns true.
 
 ## EmitterStack
 
-`Zend\HttpHandlerRunner\Emitter\EmitterStack` allows providing a
+`Laminas\HttpHandlerRunner\Emitter\EmitterStack` allows providing a
 last-in-first-out (LIFO) stack of emitters instead of a single emitter. If an
 emitter is incapable of handling the response and returns `false`, the stack
 will move to the next emitter. If an emitter returns `true`, the stack
