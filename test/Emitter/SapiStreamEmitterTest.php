@@ -1,24 +1,25 @@
 <?php
+
 /**
- * @see       https://github.com/zendframework/zend-httphandlerrunner for the canonical source repository
- * @copyright Copyright (c) 2018 Zend Technologies USA Inc. (https://www.zend.com)
- * @license   https://github.com/zendframework/zend-httphandlerrunner/blob/master/LICENSE.md New BSD License
+ * @see       https://github.com/laminas/laminas-httphandlerrunner for the canonical source repository
+ * @copyright https://github.com/laminas/laminas-httphandlerrunner/blob/master/COPYRIGHT.md
+ * @license   https://github.com/laminas/laminas-httphandlerrunner/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
-namespace ZendTest\HttpHandlerRunner\Emitter;
+namespace LaminasTest\HttpHandlerRunner\Emitter;
 
+use Laminas\Diactoros\CallbackStream;
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\Response\EmptyResponse;
+use Laminas\Diactoros\Response\HtmlResponse;
+use Laminas\Diactoros\Response\JsonResponse;
+use Laminas\Diactoros\Response\TextResponse;
+use Laminas\HttpHandlerRunner\Emitter\SapiStreamEmitter;
+use LaminasTest\HttpHandlerRunner\TestAsset\HeaderStack;
 use Prophecy\Argument;
 use Psr\Http\Message\StreamInterface;
-use Zend\Diactoros\CallbackStream;
-use Zend\Diactoros\Response;
-use Zend\Diactoros\Response\EmptyResponse;
-use Zend\Diactoros\Response\HtmlResponse;
-use Zend\Diactoros\Response\JsonResponse;
-use Zend\Diactoros\Response\TextResponse;
-use Zend\HttpHandlerRunner\Emitter\SapiStreamEmitter;
-use ZendTest\HttpHandlerRunner\TestAsset\HeaderStack;
 
 use function gc_collect_cycles;
 use function gc_disable;

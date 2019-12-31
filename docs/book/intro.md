@@ -1,4 +1,4 @@
-# zend-httphandlerrunner
+# laminas-httphandlerrunner
 
 This component provides  utilities for:
 

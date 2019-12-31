@@ -4,7 +4,7 @@
          bootstrap="vendor/autoload.php"
          colors="true">
     <testsuites>
-        <testsuite name="zend-httphandlerrunner">
+        <testsuite name="laminas-httphandlerrunner">
             <directory>./test</directory>
         </testsuite>
     </testsuites>
