@@ -1,47 +1,22 @@
 {
-    "name": "zendframework/zend-httphandlerrunner",
+    "name": "laminas/laminas-httphandlerrunner",
     "description": "Execute PSR-15 RequestHandlerInterface instances and emit responses they generate.",
     "license": "BSD-3-Clause",
     "keywords": [
+        "laminas",
         "components",
-        "expressive",
-        "zf",
-        "zendframework",
+        "mezzio",
         "psr-7",
         "psr-15"
     ],
+    "homepage": "https://laminas.dev",
     "support": {
-        "docs": "https://docs.zendframework.com/zend-httphandlerrunner/",
-        "issues": "https://github.com/zendframework/zend-httphandlerrunner/issues",
-        "source": "https://github.com/zendframework/zend-httphandlerrunner",
-        "rss": "https://github.com/zendframework/zend-httphandlerrunner/releases.atom",
-        "slack": "https://zendframework-slack.herokuapp.com",
-        "forum": "https://discourse.zendframework.com/c/questions/expressive"
-    },
-    "require": {
-        "php": "^7.1",
-        "psr/http-message": "^1.0",
-        "psr/http-message-implementation": "^1.0",
-        "psr/http-server-handler": "^1.0"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^6.3",
-        "zendframework/zend-coding-standard": "~1.0.0",
-        "zendframework/zend-diactoros": "^1.7"
-    },
-    "autoload": {
-        "psr-4": {
-            "Zend\\HttpHandlerRunner\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "ZendTest\\HttpHandlerRunner\\": "test/"
-        },
-        "files": [
-            "test/TestAsset/Functions.php",
-            "test/TestAsset/SapiResponse.php"
-        ]
+        "docs": "https://docs.laminas.dev/laminas-httphandlerrunner/",
+        "issues": "https://github.com/laminas/laminas-httphandlerrunner/issues",
+        "source": "https://github.com/laminas/laminas-httphandlerrunner",
+        "rss": "https://github.com/laminas/laminas-httphandlerrunner/releases.atom",
+        "chat": "https://laminas.dev/chat",
+        "forum": "https://discourse.laminas.dev"
     },
     "config": {
         "sort-packages": true
@@ -50,9 +25,35 @@
         "branch-alias": {
             "dev-master": "1.0-dev"
         },
-        "zf": {
-            "config-provider": "Zend\\HttpHandlerRunner\\ConfigProvider"
+        "laminas": {
+            "config-provider": "Laminas\\HttpHandlerRunner\\ConfigProvider"
         }
+    },
+    "require": {
+        "php": "^7.1",
+        "laminas/laminas-zendframework-bridge": "^1.0",
+        "psr/http-message": "^1.0",
+        "psr/http-message-implementation": "^1.0",
+        "psr/http-server-handler": "^1.0"
+    },
+    "require-dev": {
+        "laminas/laminas-coding-standard": "~1.0.0",
+        "laminas/laminas-diactoros": "^1.7",
+        "phpunit/phpunit": "^6.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Laminas\\HttpHandlerRunner\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LaminasTest\\HttpHandlerRunner\\": "test/"
+        },
+        "files": [
+            "test/TestAsset/Functions.php",
+            "test/TestAsset/SapiResponse.php"
+        ]
     },
     "scripts": {
         "check": [
@@ -63,5 +64,8 @@
         "cs-fix": "phpcbf",
         "test": "phpunit --colors=always",
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
+    },
+    "replace": {
+        "zendframework/zend-httphandlerrunner": "self.version"
     }
 }
