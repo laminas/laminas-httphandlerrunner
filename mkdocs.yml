@@ -10,3 +10,6 @@ nav:
 site_name: laminas-httphandlerrunner
 site_description: 'Execute PSR-15 RequestHandlerInterface instances and emit responses they generate.'
 repo_url: 'https://github.com/laminas/laminas-httphandlerrunner'
+extra:
+    project: Components
+    project_url: 'https://docs.laminas.dev'
