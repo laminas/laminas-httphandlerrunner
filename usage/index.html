@@ -20,7 +20,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -36,13 +36,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -61,20 +65,6 @@
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
 
         <ul class="subnavigation__list">
-            
-
-                
-                
-
-                    
-                    
-                        
-                            <li class="subnavigation__list-item ">
-                                <a href=".." class="subnavigation__link">laminas-httphandlerrunner</a>
-                            </li>
-                        
-                    
-                
             
 
                 
@@ -227,8 +217,7 @@
     <h1 id="installation-and-usage">Installation and Usage</h1>
 <p>To install this package, run the following <a href="https://getcomposer.org">composer</a>
 command:</p>
-<p> <div class=codehilite><pre><span></span>$ composer require laminas/laminas-httphandlerrunner
-</pre></div></p>
+<pre class=codehilite><code class=language-bash>$ composer require laminas/laminas-httphandlerrunner</code></pre>
 <p>The package provides both <a href="../emitters/">emitters</a> and the <a href="../runner/">request handler
 runner</a>, and these are generally used within the bootstrap of your
 application.</p>
@@ -239,19 +228,18 @@ factory, the server request error response generator, potentially, the runner
 itself.</p>
 <p>The example below instantiates the runner manually by pulling its dependencies
 from a configured <a href="https://www.php-fig.org/psr/psr-11">PSR-11</a> container.</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\HttpHandlerRunner\Emitter\EmitterStack;</span>
-<span class=x>use Laminas\HttpHandlerRunner\RequestHandlerRunner;</span>
+<pre class=codehilite><code class=language-php>use Laminas\HttpHandlerRunner\Emitter\EmitterStack;
+use Laminas\HttpHandlerRunner\RequestHandlerRunner;
 
-<span class=x>$container = require &#39;config/container.php&#39;;</span>
+$container = require 'config/container.php';
 
-<span class=x>$runner = new RequestHandlerRunner(</span>
-<span class=x>    $container-&gt;get(ApplicationRequestHandler::class),</span>
-<span class=x>    $container-&gt;get(EmitterStack::class),</span>
-<span class=x>    $container-&gt;get(&#39;ServerRequestFactory&#39;),</span>
-<span class=x>    $container-&gt;get(&#39;ServerRequestErrorResponseGenerator&#39;)</span>
-<span class=x>);</span>
-<span class=x>$runner-&gt;run();</span>
-</pre></div></p>
+$runner = new RequestHandlerRunner(
+    $container-&gt;get(ApplicationRequestHandler::class),
+    $container-&gt;get(EmitterStack::class),
+    $container-&gt;get('ServerRequestFactory'),
+    $container-&gt;get('ServerRequestErrorResponseGenerator')
+);
+$runner-&gt;run();</code></pre>
 
 
 
@@ -312,20 +300,6 @@ from a configured <a href="https://www.php-fig.org/psr/psr-11">PSR-11</a> contai
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
 
         <ul class="subnavigation__list">
-            
-
-                
-                
-
-                    
-                    
-                        
-                            <li class="subnavigation__list-item ">
-                                <a href=".." class="subnavigation__link">laminas-httphandlerrunner</a>
-                            </li>
-                        
-                    
-                
             
 
                 
@@ -407,9 +381,10 @@ from a configured <a href="https://www.php-fig.org/psr/psr-11">PSR-11</a> contai
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -446,7 +421,7 @@ from a configured <a href="https://www.php-fig.org/psr/psr-11">PSR-11</a> contai
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/laminas/laminas-httphandlerrunner//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/laminas/laminas-httphandlerrunner/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -455,8 +430,8 @@ from a configured <a href="https://www.php-fig.org/psr/psr-11">PSR-11</a> contai
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/laminas/laminas-httphandlerrunner//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/laminas/laminas-httphandlerrunner/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

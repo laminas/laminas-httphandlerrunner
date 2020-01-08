@@ -20,7 +20,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -36,13 +36,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -61,20 +65,6 @@
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
 
         <ul class="subnavigation__list">
-            
-
-                
-                
-
-                    
-                    
-                        
-                            <li class="subnavigation__list-item ">
-                                <a href=".." class="subnavigation__link">laminas-httphandlerrunner</a>
-                            </li>
-                        
-                    
-                
             
 
                 
@@ -272,25 +262,22 @@ By this, we mean:</p>
   from the third argument.</li>
 </ul>
 <p>Once constructed, you may call the method <code>run()</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$runner-&gt;run();</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$runner-&gt;run();</code></pre>
 <h2 id="server-request-factory">Server request factory</h2>
 <p>The <code>$serverRequestFactory</code> argument to the constructor may be any PHP callable
 that accepts no arguments (or all optional arguments), and which returns a
 <a href="https://www.php-fig.org/psr/psr-7">PSR-7</a> <code>ServerRequestInterface</code> instance.</p>
 <p>As an example, using <a href="https://docs.laminas.dev/laminas-diactoros">laminas-diactoros</a>:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Laminas\Diactoros\ServerRequestFactory;</span>
+<pre class=codehilite><code class=language-php>use Laminas\Diactoros\ServerRequestFactory;
 
-<span class=x>$serverRequestFactory = [ServerRequestFactory::class, &#39;fromGlobals&#39;];</span>
-</pre></div></p>
+$serverRequestFactory = [ServerRequestFactory::class, 'fromGlobals'];</code></pre>
 <p>Alternately, a <a href="https://github.com/php-fig/fig-standards/tree/a6abdeb44a060d80925c95714f39854c510e879f/proposed/http-factory">PSR-17 (proposed specification for HTTP message
 factories)</a> factory may be used:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use HttpInterop\Implementation\ServerRequestFactory;</span>
+<pre class=codehilite><code class=language-php>use HttpInterop\Implementation\ServerRequestFactory;
 
-<span class=x>$serverRequestFactory = function () use ($_SERVER, $factory) {</span>
-<span class=x>    return $factory-&gt;createServerRequestFromArray($_SERVER);</span>
-<span class=x>};</span>
-</pre></div></p>
+$serverRequestFactory = function () use ($_SERVER, $factory) {
+    return $factory-&gt;createServerRequestFromArray($_SERVER);
+};</code></pre>
 <h2 id="server-request-error-response-generator">Server request error response generator</h2>
 <p>In rare cases, the server request factory may raise a PHP <code>Throwable</code> or
 <code>Exception</code>. In those cases, the runner still needs to generate a response to
@@ -303,16 +290,15 @@ provides the class <code>Laminas\Stratigility\Middleware\ErrorResponseGenerator<
 is typically used with its <code>ErrorHandler</code> to generate a response. It can be
 re-purposed if we curry in empty server request and response instances as
 follows:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Throwable;</span>
-<span class=x>use Laminas\Diactoros\Response;</span>
-<span class=x>use Laminas\Diactoros\ServerRequest;</span>
-<span class=x>use Laminas\Stratigility\Middleware\ErrorResponseGenerator;</span>
+<pre class=codehilite><code class=language-php>use Throwable;
+use Laminas\Diactoros\Response;
+use Laminas\Diactoros\ServerRequest;
+use Laminas\Stratigility\Middleware\ErrorResponseGenerator;
 
-<span class=x>$errorResponseGenerator = function (Throwable $e) {</span>
-<span class=x>    $generator = new ErrorResponseGenerator();</span>
-<span class=x>    return $generator($e, new ServerRequest(), new Response());</span>
-<span class=x>};</span>
-</pre></div></p>
+$errorResponseGenerator = function (Throwable $e) {
+    $generator = new ErrorResponseGenerator();
+    return $generator($e, new ServerRequest(), new Response());
+};</code></pre>
 <h2 id="request-handlers">Request handlers</h2>
 <p>Request handlers MUST implement <code>Psr\Http\Server\RequestHandlerInterface</code>.
 Additionally, for best results, they MUST provide their own error and exception
@@ -378,20 +364,6 @@ response.</p>
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
 
         <ul class="subnavigation__list">
-            
-
-                
-                
-
-                    
-                    
-                        
-                            <li class="subnavigation__list-item ">
-                                <a href=".." class="subnavigation__link">laminas-httphandlerrunner</a>
-                            </li>
-                        
-                    
-                
             
 
                 
@@ -473,9 +445,10 @@ response.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -512,7 +485,7 @@ response.</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/laminas/laminas-httphandlerrunner//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/laminas/laminas-httphandlerrunner/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -521,8 +494,8 @@ response.</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/laminas/laminas-httphandlerrunner//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/laminas/laminas-httphandlerrunner/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>

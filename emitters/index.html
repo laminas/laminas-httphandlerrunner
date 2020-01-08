@@ -20,7 +20,7 @@
     <div class="container">
         
         <a class="logo-link navbar-brand offset-md-2" href="https://getlaminas.org/" data-tooltip data-placement="bottom" title="Go to the Laminas homepage">
-            <img src="../img/laminas-foundation-white.svg" height="28" alt="Lamnias">
+            <img src="../img/laminas-foundation-white.svg" height="28" alt="Laminas">
         </a>
         <a class="navbar-title" href="https://docs.laminas.dev/" data-tooltip data-placement="bottom" title="Go to the Laminas Documentation">
             Documentation
@@ -36,13 +36,17 @@
             
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a href="https://getlaminas.org/about" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://getlaminas.org/blog" class="nav-link">Blog</a>
-                </li>
-                <li class="nav-item">
-                    <a href="https://docs.laminas.dev" class="nav-link">All Docs</a>
+                    <div class="dropdown">
+                        <a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false">
+                            All Docs
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="https://docs.laminas.dev/components">Components</a>
+                            <a class="dropdown-item" href="https://docs.mezzio.dev/">Mezzio</a>
+                            <a class="dropdown-item" href="https://api-tools.getlaminas.org/docs">API Tools</a>
+                            <a class="dropdown-item" href="https://docs.laminas.dev/mvc">MVC</a>
+                        </div>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a href="https://getlaminas.org/participate" class="nav-link">Community</a>
@@ -61,20 +65,6 @@
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
 
         <ul class="subnavigation__list">
-            
-
-                
-                
-
-                    
-                    
-                        
-                            <li class="subnavigation__list-item ">
-                                <a href=".." class="subnavigation__link">laminas-httphandlerrunner</a>
-                            </li>
-                        
-                    
-                
             
 
                 
@@ -257,13 +247,12 @@
 response. This should generally happen when running under a traditional PHP
 server API that uses output buffers, such as Apache or php-fpm.</p>
 <p>Emitters are described by <code>Laminas\HttpHandlerRunner\Emitter\EmitterInterface</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>use Psr\Http\Message\ResponseInterface;</span>
+<pre class=codehilite><code class=language-php>use Psr\Http\Message\ResponseInterface;
 
-<span class=x>interface EmitterInterface</span>
-<span class=x>{</span>
-<span class=x>    public function emit(ResponseInterface $response) : bool;</span>
-<span class=x>}</span>
-</pre></div></p>
+interface EmitterInterface
+{
+    public function emit(ResponseInterface $response) : bool;
+}</code></pre>
 <p>Typically, such emitters will perform the following:</p>
 <ul>
 <li>Emit a response status line.</li>
@@ -315,10 +304,9 @@ short-circuits and immediately returns.</p>
 <p>The <code>EmitterStack</code> extends <code>SplStack</code>, and thus allows you to add emitters using
 any of the methods that class defines; we recommend adding them in LIFO order
 using <code>push()</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$stack-&gt;push($last);</span>
-<span class=x>$stack-&gt;push($second);</span>
-<span class=x>$stack-&gt;push($first);</span>
-</pre></div></p>
+<pre class=codehilite><code class=language-php>$stack-&gt;push($last);
+$stack-&gt;push($second);
+$stack-&gt;push($first);</code></pre>
 <h3>Conditionally using the SapiStreamEmitter</h3>
 <p>The <code>SapiStreamEmitter</code> is capable of emitting any response. However, for
 in-memory responses, you may want to use the more efficient <code>SapiEmitter</code>. How
@@ -327,30 +315,29 @@ can you do this?</p>
 as the <code>Content-Disposition</code> or <code>Content-Range</code> headers; if those headers are
 not present, you could return <code>false</code> from the emitter, and otherwise continue.
 You could achieve this by decorating the <code>SapiStreamEmitter</code>:</p>
-<p> <div class=codehilite><pre><span></span><span class=x>$sapiStreamEmitter = new SapiStreamEmitter($maxBufferLength);</span>
-<span class=x>$conditionalEmitter = new class ($sapiStreamEmitter) implements EmitterInterface {</span>
-<span class=x>    private $emitter;</span>
+<pre class=codehilite><code class=language-php>$sapiStreamEmitter = new SapiStreamEmitter($maxBufferLength);
+$conditionalEmitter = new class ($sapiStreamEmitter) implements EmitterInterface {
+    private $emitter;
 
-<span class=x>    public function __construct(EmitterInterface $emitter)</span>
-<span class=x>    {</span>
-<span class=x>        $this-&gt;emitter = $emitter;</span>
-<span class=x>    }</span>
+    public function __construct(EmitterInterface $emitter)
+    {
+        $this-&gt;emitter = $emitter;
+    }
 
-<span class=x>    public function emit(ResponseInterface $response) : bool</span>
-<span class=x>    {</span>
-<span class=x>        if (! $response-&gt;hasHeader(&#39;Content-Disposition&#39;)</span>
-<span class=x>            &amp;&amp; ! $response-&gt;hasHeader(&#39;Content-Range&#39;)</span>
-<span class=x>        ) {</span>
-<span class=x>            return false;</span>
-<span class=x>        }</span>
-<span class=x>        return $this-&gt;emitter-&gt;emit($response);</span>
-<span class=x>    }</span>
-<span class=x>};</span>
+    public function emit(ResponseInterface $response) : bool
+    {
+        if (! $response-&gt;hasHeader('Content-Disposition')
+            &amp;&amp; ! $response-&gt;hasHeader('Content-Range')
+        ) {
+            return false;
+        }
+        return $this-&gt;emitter-&gt;emit($response);
+    }
+};
 
-<span class=x>$stack = new EmitterStack();</span>
-<span class=x>$stack-&gt;push(new SapiEmitter());</span>
-<span class=x>$stack-&gt;push($conditionalEmitter);</span>
-</pre></div></p>
+$stack = new EmitterStack();
+$stack-&gt;push(new SapiEmitter());
+$stack-&gt;push($conditionalEmitter);</code></pre>
 <p>In this way, you can have the best of both worlds, using the memory-efficient
 <code>SapiStreamEmitter</code> for large file downloads or streaming buffers, and the
 general-purpose <code>SapiEmitter</code> for everything else.</p>
@@ -410,20 +397,6 @@ general-purpose <code>SapiEmitter</code> for everything else.</p>
         <h5 class="subnavigation__subtitle">Table of Contents</h5>
 
         <ul class="subnavigation__list">
-            
-
-                
-                
-
-                    
-                    
-                        
-                            <li class="subnavigation__list-item ">
-                                <a href=".." class="subnavigation__link">laminas-httphandlerrunner</a>
-                            </li>
-                        
-                    
-                
             
 
                 
@@ -505,9 +478,10 @@ general-purpose <code>SapiEmitter</code> for everything else.</p>
             <div class="col-md-7 offset-md-2">
                 <h5>Laminas</h5>
                 <ul>
-                    <li>Laminas Project <a href="https://getlaminas.org/">Components and MVC for Enterprise Applications</a></li>
-                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 Middleware in Minutes</a></li>
-                    <li>Laminas API Tools: <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
+                    <li>Laminas Project <a href="https://getlaminas.org/">The new foundation for the community-supported, open source continuation of Zend Framework</a></li>
+                    <li>Laminas Components and MVC <a href="https://docs.laminas.dev/">Components and MVC for enterprise applications</a></li>
+                    <li>Mezzio <a href="https://docs.mezzio.dev/">PSR-15 middleware in minutes</a></li>
+                    <li>Laminas API Tools <a href="https://api-tools.getlaminas.org/">Build RESTful APIs in minutes</a></li>
                 </ul>
             </div>
         </div>
@@ -544,7 +518,7 @@ general-purpose <code>SapiEmitter</code> for everything else.</p>
                 <h4 class="footer__headline">License</h4>
                 <p>
                     Code licensed under <a
-                        href="https://github.com/laminas/laminas-httphandlerrunner//blob/master/LICENSE.md">BSD 3-Clause</a>.
+                        href="https://github.com/laminas/laminas-httphandlerrunner/blob/master/LICENSE.md">BSD 3-Clause</a>.
                 </p>
             </div>
 
@@ -553,8 +527,8 @@ general-purpose <code>SapiEmitter</code> for everything else.</p>
                 <h4 class="footer__headline">Copyright</h4>
                 <p>
                     <!--Built with love by the Laminas team with the help of our
-                    <a href="https://github.com/laminas/laminas-httphandlerrunner//graphs/contributors">contributors</a>.<br>-->
-                    &copy; 2019-2019 by <a href="https://getlaminas.org/">The Laminas Project</a>.
+                    <a href="https://github.com/laminas/laminas-httphandlerrunner/graphs/contributors">contributors</a>.<br>-->
+                    &copy; 2019-2020 by <a href="https://getlaminas.org/">The Laminas Project</a>.
                 </p>
             </div>
         </div>
