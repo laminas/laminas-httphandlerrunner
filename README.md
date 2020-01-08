@@ -1,6 +1,6 @@
 # laminas-httphandlerrunner
 
-[![Build Status](https://travis-ci.org/laminas/laminas-httphandlerrunner.svg?branch=master)](https://travis-ci.org/laminas/laminas-httphandlerrunner)
+[![Build Status](https://travis-ci.com/laminas/laminas-httphandlerrunner.svg?branch=master)](https://travis-ci.com/laminas/laminas-httphandlerrunner)
 [![Coverage Status](https://coveralls.io/repos/github/laminas/laminas-httphandlerrunner/badge.svg?branch=master)](https://coveralls.io/github/laminas/laminas-httphandlerrunner?branch=master)
 
 This library provides utilities for:

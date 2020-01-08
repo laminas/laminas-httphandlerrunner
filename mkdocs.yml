@@ -1,7 +1,7 @@
 docs_dir: docs/book
 site_dir: docs/html
 nav:
-    - index.md
+    - Home: index.md
     - Introduction: intro.md
     - Usage: usage.md
     - Reference:
@@ -12,4 +12,3 @@ site_description: 'Execute PSR-15 RequestHandlerInterface instances and emit res
 repo_url: 'https://github.com/laminas/laminas-httphandlerrunner'
 extra:
     project: Components
-    project_url: 'https://docs.laminas.dev'
