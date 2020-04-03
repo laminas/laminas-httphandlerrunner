@@ -306,12 +306,13 @@
 response. This should generally happen when running under a traditional PHP
 server API that uses output buffers, such as Apache or php-fpm.</p>
 <p>Emitters are described by <code>Laminas\HttpHandlerRunner\Emitter\EmitterInterface</code>:</p>
-<pre class=codehilite><code class=language-php>use Psr\Http\Message\ResponseInterface;
+<pre class="highlight"><code class="language-php">use Psr\Http\Message\ResponseInterface;
 
 interface EmitterInterface
 {
     public function emit(ResponseInterface $response) : bool;
 }</code></pre>
+
 <p>Typically, such emitters will perform the following:</p>
 <ul>
 <li>Emit a response status line.</li>
@@ -363,9 +364,10 @@ short-circuits and immediately returns.</p>
 <p>The <code>EmitterStack</code> extends <code>SplStack</code>, and thus allows you to add emitters using
 any of the methods that class defines; we recommend adding them in LIFO order
 using <code>push()</code>:</p>
-<pre class=codehilite><code class=language-php>$stack-&gt;push($last);
+<pre class="highlight"><code class="language-php">$stack-&gt;push($last);
 $stack-&gt;push($second);
 $stack-&gt;push($first);</code></pre>
+
 <h3>Conditionally using the SapiStreamEmitter</h3>
 <p>The <code>SapiStreamEmitter</code> is capable of emitting any response. However, for
 in-memory responses, you may want to use the more efficient <code>SapiEmitter</code>. How
@@ -374,7 +376,7 @@ can you do this?</p>
 as the <code>Content-Disposition</code> or <code>Content-Range</code> headers; if those headers are
 not present, you could return <code>false</code> from the emitter, and otherwise continue.
 You could achieve this by decorating the <code>SapiStreamEmitter</code>:</p>
-<pre class=codehilite><code class=language-php>$sapiStreamEmitter = new SapiStreamEmitter($maxBufferLength);
+<pre class="highlight"><code class="language-php">$sapiStreamEmitter = new SapiStreamEmitter($maxBufferLength);
 $conditionalEmitter = new class ($sapiStreamEmitter) implements EmitterInterface {
     private $emitter;
 
@@ -397,6 +399,7 @@ $conditionalEmitter = new class ($sapiStreamEmitter) implements EmitterInterface
 $stack = new EmitterStack();
 $stack-&gt;push(new SapiEmitter());
 $stack-&gt;push($conditionalEmitter);</code></pre>
+
 <p>In this way, you can have the best of both worlds, using the memory-efficient
 <code>SapiStreamEmitter</code> for large file downloads or streaming buffers, and the
 general-purpose <code>SapiEmitter</code> for everything else.</p>

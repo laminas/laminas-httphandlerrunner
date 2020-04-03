@@ -321,22 +321,25 @@ By this, we mean:</p>
   from the third argument.</li>
 </ul>
 <p>Once constructed, you may call the method <code>run()</code>:</p>
-<pre class=codehilite><code class=language-php>$runner-&gt;run();</code></pre>
+<pre class="highlight"><code class="language-php">$runner-&gt;run();</code></pre>
+
 <h2 id="server-request-factory">Server request factory</h2>
 <p>The <code>$serverRequestFactory</code> argument to the constructor may be any PHP callable
 that accepts no arguments (or all optional arguments), and which returns a
 <a href="https://www.php-fig.org/psr/psr-7">PSR-7</a> <code>ServerRequestInterface</code> instance.</p>
 <p>As an example, using <a href="https://docs.laminas.dev/laminas-diactoros">laminas-diactoros</a>:</p>
-<pre class=codehilite><code class=language-php>use Laminas\Diactoros\ServerRequestFactory;
+<pre class="highlight"><code class="language-php">use Laminas\Diactoros\ServerRequestFactory;
 
 $serverRequestFactory = [ServerRequestFactory::class, 'fromGlobals'];</code></pre>
+
 <p>Alternately, a <a href="https://github.com/php-fig/fig-standards/tree/a6abdeb44a060d80925c95714f39854c510e879f/proposed/http-factory">PSR-17 (proposed specification for HTTP message
 factories)</a> factory may be used:</p>
-<pre class=codehilite><code class=language-php>use HttpInterop\Implementation\ServerRequestFactory;
+<pre class="highlight"><code class="language-php">use HttpInterop\Implementation\ServerRequestFactory;
 
 $serverRequestFactory = function () use ($_SERVER, $factory) {
     return $factory-&gt;createServerRequestFromArray($_SERVER);
 };</code></pre>
+
 <h2 id="server-request-error-response-generator">Server request error response generator</h2>
 <p>In rare cases, the server request factory may raise a PHP <code>Throwable</code> or
 <code>Exception</code>. In those cases, the runner still needs to generate a response to
@@ -349,7 +352,7 @@ provides the class <code>Laminas\Stratigility\Middleware\ErrorResponseGenerator<
 is typically used with its <code>ErrorHandler</code> to generate a response. It can be
 re-purposed if we curry in empty server request and response instances as
 follows:</p>
-<pre class=codehilite><code class=language-php>use Throwable;
+<pre class="highlight"><code class="language-php">use Throwable;
 use Laminas\Diactoros\Response;
 use Laminas\Diactoros\ServerRequest;
 use Laminas\Stratigility\Middleware\ErrorResponseGenerator;
@@ -358,6 +361,7 @@ $errorResponseGenerator = function (Throwable $e) {
     $generator = new ErrorResponseGenerator();
     return $generator($e, new ServerRequest(), new Response());
 };</code></pre>
+
 <h2 id="request-handlers">Request handlers</h2>
 <p>Request handlers MUST implement <code>Psr\Http\Server\RequestHandlerInterface</code>.
 Additionally, for best results, they MUST provide their own error and exception

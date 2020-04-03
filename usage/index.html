@@ -276,7 +276,8 @@
     <h1 id="installation-and-usage">Installation and Usage</h1>
 <p>To install this package, run the following <a href="https://getcomposer.org">composer</a>
 command:</p>
-<pre class=codehilite><code class=language-bash>$ composer require laminas/laminas-httphandlerrunner</code></pre>
+<pre class="highlight"><code class="language-bash">$ composer require laminas/laminas-httphandlerrunner</code></pre>
+
 <p>The package provides both <a href="../emitters/">emitters</a> and the <a href="../runner/">request handler
 runner</a>, and these are generally used within the bootstrap of your
 application.</p>
@@ -287,7 +288,7 @@ factory, the server request error response generator, potentially, the runner
 itself.</p>
 <p>The example below instantiates the runner manually by pulling its dependencies
 from a configured <a href="https://www.php-fig.org/psr/psr-11">PSR-11</a> container.</p>
-<pre class=codehilite><code class=language-php>use Laminas\HttpHandlerRunner\Emitter\EmitterStack;
+<pre class="highlight"><code class="language-php">use Laminas\HttpHandlerRunner\Emitter\EmitterStack;
 use Laminas\HttpHandlerRunner\RequestHandlerRunner;
 
 $container = require 'config/container.php';
