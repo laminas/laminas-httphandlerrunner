@@ -42,6 +42,8 @@ class SapiStreamEmitter implements EmitterInterface
         $this->emitHeaders($response);
         $this->emitStatusLine($response);
 
+        flush();
+
         $range = $this->parseContentRange($response->getHeaderLine('Content-Range'));
 
         if (null === $range || 'bytes' !== $range[0]) {
