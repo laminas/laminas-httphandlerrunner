@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 1.1.1 - TBD
+## 1.2.0 - 2020-06-03
 
 ### Added
 
@@ -10,7 +10,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
-- Nothing.
+- [#4](https://github.com/laminas/laminas-httphandlerrunner/pull/4) adds a call to `flush()` within the `SapiStreamEmitter`, after emitting headers and the status line, but before emitting content. This change allows providing a response to the browser more quickly, allowing it to process the stream as it is pushed.
 
 ### Deprecated
 
