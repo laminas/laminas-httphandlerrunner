@@ -26,7 +26,7 @@ class EmitterStackTest extends TestCase
     /** @var EmitterStack */
     private $emitter;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->emitter = new EmitterStack();
     }
