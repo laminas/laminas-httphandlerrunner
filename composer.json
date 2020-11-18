@@ -36,7 +36,7 @@
     "require-dev": {
         "laminas/laminas-coding-standard": "~1.0.0",
         "laminas/laminas-diactoros": "^1.7 || ^2.1.1",
-        "phpunit/phpunit": "^8.5"
+        "phpunit/phpunit": "^8.5 || ^9.1"
     },
     "autoload": {
         "psr-4": {
