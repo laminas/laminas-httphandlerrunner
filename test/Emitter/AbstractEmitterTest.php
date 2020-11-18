@@ -25,13 +25,13 @@ abstract class AbstractEmitterTest extends TestCase
      */
     protected $emitter;
 
-    public function setUp()
+    public function setUp(): void
     {
         HeaderStack::reset();
         $this->emitter = new SapiEmitter();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         HeaderStack::reset();
     }
@@ -111,7 +111,7 @@ abstract class AbstractEmitterTest extends TestCase
         $this->emitter->emit($response);
         ob_end_clean();
         foreach (HeaderStack::stack() as $header) {
-            $this->assertNotContains('Content-Length:', $header['header']);
+            $this->assertStringNotContainsString('Content-Length:', $header['header']);
         }
     }
 }
