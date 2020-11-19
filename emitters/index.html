@@ -217,7 +217,7 @@
             </div>
 
             
-            <div class="col-4 text-sm-right">
+            <div class="col-4 text-right">
                 
                     
 
@@ -312,7 +312,6 @@ interface EmitterInterface
 {
     public function emit(ResponseInterface $response) : bool;
 }</code></pre>
-
 <p>Typically, such emitters will perform the following:</p>
 <ul>
 <li>Emit a response status line.</li>
@@ -367,7 +366,6 @@ using <code>push()</code>:</p>
 <pre class="highlight"><code class="language-php">$stack-&gt;push($last);
 $stack-&gt;push($second);
 $stack-&gt;push($first);</code></pre>
-
 <h3>Conditionally using the SapiStreamEmitter</h3>
 <p>The <code>SapiStreamEmitter</code> is capable of emitting any response. However, for
 in-memory responses, you may want to use the more efficient <code>SapiEmitter</code>. How
@@ -399,7 +397,6 @@ $conditionalEmitter = new class ($sapiStreamEmitter) implements EmitterInterface
 $stack = new EmitterStack();
 $stack-&gt;push(new SapiEmitter());
 $stack-&gt;push($conditionalEmitter);</code></pre>
-
 <p>In this way, you can have the best of both worlds, using the memory-efficient
 <code>SapiStreamEmitter</code> for large file downloads or streaming buffers, and the
 general-purpose <code>SapiEmitter</code> for everything else.</p>
