@@ -2,19 +2,11 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 1.3.0 - TBD
+## 1.3.0 - 2020-11-19
 
 ### Added
 
 - [#7](https://github.com/laminas/laminas-httphandlerrunner/pull/7) adds support for PHP 8.0.
-
-### Changed
-
-- Nothing.
-
-### Deprecated
-
-- Nothing.
 
 ### Removed
 
@@ -22,9 +14,26 @@ All notable changes to this project will be documented in this file, in reverse 
 
 - [#7](https://github.com/laminas/laminas-httphandlerrunner/pull/7) drops support for PHP versions prior to 7.3.
 
-### Fixed
 
-- Nothing.
+-----
+
+### Release Notes for [1.3.0](https://github.com/laminas/laminas-httphandlerrunner/milestone/1)
+
+
+
+### 1.3.0
+
+- Total issues resolved: **1**
+- Total pull requests resolved: **1**
+- Total contributors: **2**
+
+#### Enhancement
+
+ - [7: Bump up PHP version constraint.](https://github.com/laminas/laminas-httphandlerrunner/pull/7) thanks to @ADmad
+
+#### Enhancement,Help Wanted,hacktoberfest-accepted
+
+ - [6: PHP 8.0 support](https://github.com/laminas/laminas-httphandlerrunner/issues/6) thanks to @boesing
 
 ## 1.2.0 - 2020-06-03
 
