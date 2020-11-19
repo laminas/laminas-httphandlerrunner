@@ -14,7 +14,6 @@ use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
 use Laminas\HttpHandlerRunner\Emitter\EmitterStack;
 use Laminas\HttpHandlerRunner\Exception;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
 use Psr\Http\Message\ResponseInterface;
 use SplStack;
 
@@ -52,7 +51,7 @@ class EmitterStackTest extends TestCase
             'zero-float' => [0.0],
             'float'      => [1.1],
             'string'     => ['emitter'],
-            'array'      => [[$this->prophesize(EmitterInterface::class)->reveal()]],
+            'array'      => [[$this->createMock(EmitterInterface::class)]],
             'object'     => [(object) []],
         ];
     }
@@ -92,61 +91,58 @@ class EmitterStackTest extends TestCase
 
     public function testOffsetSetReplacesExistingValue()
     {
-        $first = $this->prophesize(EmitterInterface::class);
-        $replacement = $this->prophesize(EmitterInterface::class);
-        $this->emitter->push($first->reveal());
-        $this->emitter->offsetSet(0, $replacement->reveal());
-        $this->assertSame($replacement->reveal(), $this->emitter->pop());
+        $first = $this->createMock(EmitterInterface::class);
+        $replacement = $this->createMock(EmitterInterface::class);
+        $this->emitter->push($first);
+        $this->emitter->offsetSet(0, $replacement);
+        $this->assertSame($replacement, $this->emitter->pop());
     }
 
     public function testUnshiftAddsNewEmitter()
     {
-        $first = $this->prophesize(EmitterInterface::class);
-        $second = $this->prophesize(EmitterInterface::class);
-        $this->emitter->push($first->reveal());
-        $this->emitter->unshift($second->reveal());
-        $this->assertSame($first->reveal(), $this->emitter->pop());
+        $first = $this->createMock(EmitterInterface::class);
+        $second = $this->createMock(EmitterInterface::class);
+        $this->emitter->push($first);
+        $this->emitter->unshift($second);
+        $this->assertSame($first, $this->emitter->pop());
     }
 
     public function testEmitLoopsThroughEmittersUntilOneReturnsTrueValue()
     {
-        $first = $this->prophesize(EmitterInterface::class);
-        $first->emit()->shouldNotBeCalled();
+        $first = $this->createMock(EmitterInterface::class);
+        $first->expects($this->never())->method('emit');
 
-        $second = $this->prophesize(EmitterInterface::class);
-        $second->emit(Argument::type(ResponseInterface::class))
-            ->willReturn(true);
+        $second = $this->createMock(EmitterInterface::class);
+        $second->method('emit')->with($this->isInstanceOf(ResponseInterface::class))->willReturn(true);
 
-        $third = $this->prophesize(EmitterInterface::class);
-        $third->emit(Argument::type(ResponseInterface::class))
-            ->willReturn(false);
+        $third = $this->createMock(EmitterInterface::class);
+        $third->method('emit')->with($this->isInstanceOf(ResponseInterface::class))->willReturn(false);
 
-        $this->emitter->push($first->reveal());
-        $this->emitter->push($second->reveal());
-        $this->emitter->push($third->reveal());
+        $this->emitter->push($first);
+        $this->emitter->push($second);
+        $this->emitter->push($third);
 
-        $response = $this->prophesize(ResponseInterface::class);
+        $response = $this->createMock(ResponseInterface::class);
 
-        $this->assertTrue($this->emitter->emit($response->reveal()));
+        $this->assertTrue($this->emitter->emit($response));
     }
 
     public function testEmitReturnsFalseIfLastEmmitterReturnsFalse()
     {
-        $first = $this->prophesize(EmitterInterface::class);
-        $first->emit(Argument::type(ResponseInterface::class))
-            ->willReturn(false);
+        $first = $this->createMock(EmitterInterface::class);
+        $first->method('emit')->with($this->isInstanceOf(ResponseInterface::class))->willReturn(false);
 
-        $this->emitter->push($first->reveal());
+        $this->emitter->push($first);
 
-        $response = $this->prophesize(ResponseInterface::class);
+        $response = $this->createMock(ResponseInterface::class);
 
-        $this->assertFalse($this->emitter->emit($response->reveal()));
+        $this->assertFalse($this->emitter->emit($response));
     }
 
     public function testEmitReturnsFalseIfNoEmittersAreComposed()
     {
-        $response = $this->prophesize(ResponseInterface::class);
+        $response = $this->createMock(ResponseInterface::class);
 
-        $this->assertFalse($this->emitter->emit($response->reveal()));
+        $this->assertFalse($this->emitter->emit($response));
     }
 }

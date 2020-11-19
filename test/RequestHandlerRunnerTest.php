@@ -15,7 +15,6 @@ use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
 use Laminas\HttpHandlerRunner\RequestHandlerRunner;
 use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
-use Prophecy\Argument;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -31,22 +30,22 @@ class RequestHandlerRunnerTest extends TestCase
             throw $exception;
         };
 
-        $response = $this->prophesize(ResponseInterface::class)->reveal();
+        $response = $this->createMock(ResponseInterface::class);
 
         $errorResponseGenerator = function ($e) use ($exception, $response) {
             Assert::assertSame($exception, $e);
             return $response;
         };
 
-        $emitter = $this->prophesize(EmitterInterface::class);
-        $emitter->emit($response)->shouldBeCalled();
+        $emitter = $this->createMock(EmitterInterface::class);
+        $emitter->expects($this->once())->method('emit')->with($response);
 
-        $handler = $this->prophesize(RequestHandlerInterface::class);
-        $handler->handle(Argument::any())->shouldNotBeCalled();
+        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler->expects($this->never())->method('handle');
 
         $runner = new RequestHandlerRunner(
-            $handler->reveal(),
-            $emitter->reveal(),
+            $handler,
+            $emitter,
             $serverRequestFactory,
             $errorResponseGenerator
         );
@@ -56,7 +55,7 @@ class RequestHandlerRunnerTest extends TestCase
 
     public function testRunPassesRequestGeneratedByRequestFactoryToHandleWhenNoRequestPassedToRun()
     {
-        $request = $this->prophesize(ServerRequestInterface::class)->reveal();
+        $request = $this->createMock(ServerRequestInterface::class);
 
         $serverRequestFactory = function () use ($request) {
             return $request;
@@ -66,17 +65,17 @@ class RequestHandlerRunnerTest extends TestCase
             Assert::fail('Should never hit error response generator');
         };
 
-        $response = $this->prophesize(ResponseInterface::class)->reveal();
+        $response = $this->createMock(ResponseInterface::class);
 
-        $handler = $this->prophesize(RequestHandlerInterface::class);
-        $handler->handle($request)->willReturn($response);
+        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler->method('handle')->with($request)->willReturn($response);
 
-        $emitter = $this->prophesize(EmitterInterface::class);
-        $emitter->emit($response)->shouldBeCalled();
+        $emitter = $this->createMock(EmitterInterface::class);
+        $emitter->expects($this->once())->method('emit')->with($response);
 
         $runner = new RequestHandlerRunner(
-            $handler->reveal(),
-            $emitter->reveal(),
+            $handler,
+            $emitter,
             $serverRequestFactory,
             $errorResponseGenerator
         );
@@ -90,21 +89,21 @@ class RequestHandlerRunnerTest extends TestCase
             return null;
         };
 
-        $response = $this->prophesize(ResponseInterface::class)->reveal();
+        $response = $this->createMock(ResponseInterface::class);
         $errorResponseGenerator = function (Throwable $e) use ($response) {
             Assert::assertInstanceOf(TypeError::class, $e);
             return $response;
         };
 
-        $handler = $this->prophesize(RequestHandlerInterface::class);
-        $handler->handle(Argument::any())->shouldNotBeCalled();
+        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler->expects($this->never())->method('handle');
 
-        $emitter = $this->prophesize(EmitterInterface::class);
-        $emitter->emit($response)->shouldBeCalled();
+        $emitter = $this->createMock(EmitterInterface::class);
+        $emitter->expects($this->once())->method('emit')->with($response);
 
         $runner = new RequestHandlerRunner(
-            $handler->reveal(),
-            $emitter->reveal(),
+            $handler,
+            $emitter,
             $serverRequestFactory,
             $errorResponseGenerator
         );
@@ -123,15 +122,15 @@ class RequestHandlerRunnerTest extends TestCase
             return null;
         };
 
-        $handler = $this->prophesize(RequestHandlerInterface::class);
-        $handler->handle(Argument::any())->shouldNotBeCalled();
+        $handler = $this->createMock(RequestHandlerInterface::class);
+        $handler->expects($this->never())->method('handle');
 
-        $emitter = $this->prophesize(EmitterInterface::class);
-        $emitter->emit(Argument::any())->shouldNotBeCalled();
+        $emitter = $this->createMock(EmitterInterface::class);
+        $emitter->expects($this->never())->method('emit');
 
         $runner = new RequestHandlerRunner(
-            $handler->reveal(),
-            $emitter->reveal(),
+            $handler,
+            $emitter,
             $serverRequestFactory,
             $errorResponseGenerator
         );
