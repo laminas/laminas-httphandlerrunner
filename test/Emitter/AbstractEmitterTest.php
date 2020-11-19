@@ -14,6 +14,7 @@ use Laminas\Diactoros\Response;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use LaminasTest\HttpHandlerRunner\TestAsset\HeaderStack;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\StreamInterface;
 
 use function ob_end_clean;
 use function ob_start;
@@ -100,12 +101,12 @@ abstract class AbstractEmitterTest extends TestCase
 
     public function testDoesNotInjectContentLengthHeaderIfStreamSizeIsUnknown()
     {
-        $stream = $this->prophesize('Psr\Http\Message\StreamInterface');
-        $stream->__toString()->willReturn('Content!');
-        $stream->getSize()->willReturn(null);
+        $stream = $this->createMock(StreamInterface::class);
+        $stream->method('__toString')->willReturn('Content!');
+        $stream->method('getSize')->willReturn(null);
         $response = (new Response())
             ->withStatus(200)
-            ->withBody($stream->reveal());
+            ->withBody($stream);
 
         ob_start();
         $this->emitter->emit($response);
