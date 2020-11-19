@@ -6,7 +6,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Nothing.
+- [#7](https://github.com/laminas/laminas-httphandlerrunner/pull/7) adds support for PHP 8.0.
 
 ### Changed
 
@@ -18,7 +18,9 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Removed
 
-- Nothing.
+- [#7](https://github.com/laminas/laminas-httphandlerrunner/pull/7) drops support for the 1.x series of laminas/laminas-diactoros.
+
+- [#7](https://github.com/laminas/laminas-httphandlerrunner/pull/7) drops support for PHP versions prior to 7.3.
 
 ### Fixed
 
