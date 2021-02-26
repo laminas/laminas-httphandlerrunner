@@ -21,7 +21,7 @@ class HeaderStack
     /**
      * Reset state
      */
-    public static function reset()
+    public static function reset(): void
     {
         self::$data = [];
     }
@@ -31,7 +31,7 @@ class HeaderStack
      *
      * @param string[] $header
      */
-    public static function push(array $header)
+    public static function push(array $header): void
     {
         self::$data[] = $header;
     }
@@ -53,7 +53,7 @@ class HeaderStack
      *
      * @return bool
      */
-    public static function has($header)
+    public static function has(string $header): bool
     {
         foreach (self::$data as $item) {
             if ($item['header'] === $header) {

@@ -37,7 +37,7 @@ abstract class AbstractEmitterTest extends TestCase
         HeaderStack::reset();
     }
 
-    public function testEmitsResponseHeaders()
+    public function testEmitsResponseHeaders(): void
     {
         $response = (new Response())
             ->withStatus(200)
@@ -52,7 +52,7 @@ abstract class AbstractEmitterTest extends TestCase
         $this->assertTrue(HeaderStack::has('Content-Type: text/plain'));
     }
 
-    public function testEmitsMessageBody()
+    public function testEmitsMessageBody(): void
     {
         $response = (new Response())
             ->withStatus(200)
@@ -63,7 +63,7 @@ abstract class AbstractEmitterTest extends TestCase
         $this->emitter->emit($response);
     }
 
-    public function testMultipleSetCookieHeadersAreNotReplaced()
+    public function testMultipleSetCookieHeadersAreNotReplaced(): void
     {
         $response = (new Response())
             ->withStatus(200)
@@ -81,7 +81,7 @@ abstract class AbstractEmitterTest extends TestCase
         $this->assertSame($expectedStack, HeaderStack::stack());
     }
 
-    public function testDoesNotLetResponseCodeBeOverriddenByPHP()
+    public function testDoesNotLetResponseCodeBeOverriddenByPHP(): void
     {
         $response = (new Response())
             ->withStatus(202)
@@ -99,7 +99,7 @@ abstract class AbstractEmitterTest extends TestCase
         $this->assertSame($expectedStack, HeaderStack::stack());
     }
 
-    public function testDoesNotInjectContentLengthHeaderIfStreamSizeIsUnknown()
+    public function testDoesNotInjectContentLengthHeaderIfStreamSizeIsUnknown(): void
     {
         $stream = $this->createMock(StreamInterface::class);
         $stream->method('__toString')->willReturn('Content!');
