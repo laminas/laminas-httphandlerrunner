@@ -298,7 +298,6 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
                 ->expects($this->atLeastOnce())
                 ->method('seek')
                 ->will($this->returnCallback([$streamHelper, 'handleSeek']));
-
         } else {
             $stream->expects($this->never())->method('seek');
         }

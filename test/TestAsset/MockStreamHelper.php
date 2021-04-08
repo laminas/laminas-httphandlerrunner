@@ -27,6 +27,7 @@ class MockStreamHelper
     /** @var null|callable */
     private $trackPeakBufferLength = null;
 
+    /** @param string|callable $contents */
     public function __construct(
         $contents,
         int $size,

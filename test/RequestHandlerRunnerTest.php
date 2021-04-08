@@ -23,7 +23,7 @@ use TypeError;
 
 class RequestHandlerRunnerTest extends TestCase
 {
-    public function testUsesErrorResponseGeneratorToGenerateResponseWhenRequestFactoryRaisesException()
+    public function testUsesErrorResponseGeneratorToGenerateResponseWhenRequestFactoryRaisesException(): void
     {
         $exception = new Exception();
         $serverRequestFactory = function () use ($exception) {
@@ -53,7 +53,7 @@ class RequestHandlerRunnerTest extends TestCase
         $this->assertNull($runner->run());
     }
 
-    public function testRunPassesRequestGeneratedByRequestFactoryToHandleWhenNoRequestPassedToRun()
+    public function testRunPassesRequestGeneratedByRequestFactoryToHandleWhenNoRequestPassedToRun(): void
     {
         $request = $this->createMock(ServerRequestInterface::class);
 
@@ -83,7 +83,7 @@ class RequestHandlerRunnerTest extends TestCase
         $this->assertNull($runner->run());
     }
 
-    public function testRaisesTypeErrorIfServerRequestFactoryDoesNotReturnARequestInstance()
+    public function testRaisesTypeErrorIfServerRequestFactoryDoesNotReturnARequestInstance(): void
     {
         $serverRequestFactory = function () {
             return null;
@@ -111,7 +111,7 @@ class RequestHandlerRunnerTest extends TestCase
         $this->assertNull($runner->run());
     }
 
-    public function testRaisesTypeErrorIfServerErrorResponseGeneratorFactoryDoesNotReturnAResponse()
+    public function testRaisesTypeErrorIfServerErrorResponseGeneratorFactoryDoesNotReturnAResponse(): void
     {
         $serverRequestFactory = function () {
             return null;

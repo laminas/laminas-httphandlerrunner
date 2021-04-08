@@ -30,17 +30,18 @@ class EmitterStackTest extends TestCase
         $this->emitter = new EmitterStack();
     }
 
-    public function testIsAnSplStack()
+    public function testIsAnSplStack(): void
     {
         $this->assertInstanceOf(SplStack::class, $this->emitter);
     }
 
-    public function testIsAnEmitterImplementation()
+    public function testIsAnEmitterImplementation(): void
     {
         $this->assertInstanceOf(EmitterInterface::class, $this->emitter);
     }
 
-    public function nonEmitterValues()
+    /** @return iterable<string, mixed[]> */
+    public function nonEmitterValues(): iterable
     {
         return [
             'null'       => [null],
@@ -61,7 +62,7 @@ class EmitterStackTest extends TestCase
      *
      * @param mixed $value
      */
-    public function testCannotPushNonEmitterToStack($value)
+    public function testCannotPushNonEmitterToStack($value): void
     {
         $this->expectException(Exception\InvalidEmitterException::class);
         $this->emitter->push($value);
@@ -72,7 +73,7 @@ class EmitterStackTest extends TestCase
      *
      * @param mixed $value
      */
-    public function testCannotUnshiftNonEmitterToStack($value)
+    public function testCannotUnshiftNonEmitterToStack($value): void
     {
         $this->expectException(Exception\InvalidEmitterException::class);
         $this->emitter->unshift($value);
@@ -83,13 +84,13 @@ class EmitterStackTest extends TestCase
      *
      * @param mixed $value
      */
-    public function testCannotSetNonEmitterToSpecificIndex($value)
+    public function testCannotSetNonEmitterToSpecificIndex($value): void
     {
         $this->expectException(Exception\InvalidEmitterException::class);
         $this->emitter->offsetSet(0, $value);
     }
 
-    public function testOffsetSetReplacesExistingValue()
+    public function testOffsetSetReplacesExistingValue(): void
     {
         $first = $this->createMock(EmitterInterface::class);
         $replacement = $this->createMock(EmitterInterface::class);
@@ -98,7 +99,7 @@ class EmitterStackTest extends TestCase
         $this->assertSame($replacement, $this->emitter->pop());
     }
 
-    public function testUnshiftAddsNewEmitter()
+    public function testUnshiftAddsNewEmitter(): void
     {
         $first = $this->createMock(EmitterInterface::class);
         $second = $this->createMock(EmitterInterface::class);
@@ -107,7 +108,7 @@ class EmitterStackTest extends TestCase
         $this->assertSame($first, $this->emitter->pop());
     }
 
-    public function testEmitLoopsThroughEmittersUntilOneReturnsTrueValue()
+    public function testEmitLoopsThroughEmittersUntilOneReturnsTrueValue(): void
     {
         $first = $this->createMock(EmitterInterface::class);
         $first->expects($this->never())->method('emit');
@@ -127,7 +128,7 @@ class EmitterStackTest extends TestCase
         $this->assertTrue($this->emitter->emit($response));
     }
 
-    public function testEmitReturnsFalseIfLastEmmitterReturnsFalse()
+    public function testEmitReturnsFalseIfLastEmmitterReturnsFalse(): void
     {
         $first = $this->createMock(EmitterInterface::class);
         $first->method('emit')->with($this->isInstanceOf(ResponseInterface::class))->willReturn(false);
@@ -139,7 +140,7 @@ class EmitterStackTest extends TestCase
         $this->assertFalse($this->emitter->emit($response));
     }
 
-    public function testEmitReturnsFalseIfNoEmittersAreComposed()
+    public function testEmitReturnsFalseIfNoEmittersAreComposed(): void
     {
         $response = $this->createMock(ResponseInterface::class);
 
