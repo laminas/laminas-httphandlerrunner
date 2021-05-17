@@ -1,7 +1,6 @@
 {
     "name": "laminas/laminas-httphandlerrunner",
     "description": "Execute PSR-15 RequestHandlerInterface instances and emit responses they generate.",
-    "license": "BSD-3-Clause",
     "keywords": [
         "laminas",
         "components",
@@ -10,13 +9,23 @@
         "psr-15"
     ],
     "homepage": "https://laminas.dev",
-    "support": {
-        "docs": "https://docs.laminas.dev/laminas-httphandlerrunner/",
-        "issues": "https://github.com/laminas/laminas-httphandlerrunner/issues",
-        "source": "https://github.com/laminas/laminas-httphandlerrunner",
-        "rss": "https://github.com/laminas/laminas-httphandlerrunner/releases.atom",
-        "chat": "https://laminas.dev/chat",
-        "forum": "https://discourse.laminas.dev"
+    "license": "BSD-3-Clause",
+    "require": {
+        "php": "^7.3 || ~8.0.0",
+        "laminas/laminas-zendframework-bridge": "^1.0",
+        "psr/http-message": "^1.0",
+        "psr/http-message-implementation": "^1.0",
+        "psr/http-server-handler": "^1.0"
+    },
+    "replace": {
+        "zendframework/zend-httphandlerrunner": "^1.1.0"
+    },
+    "require-dev": {
+        "laminas/laminas-coding-standard": "~1.0.0",
+        "laminas/laminas-diactoros": "^2.1.1",
+        "phpunit/phpunit": "^9.3",
+        "psalm/plugin-phpunit": "^0.15.1",
+        "vimeo/psalm": "^4.6"
     },
     "config": {
         "sort-packages": true
@@ -25,20 +34,6 @@
         "laminas": {
             "config-provider": "Laminas\\HttpHandlerRunner\\ConfigProvider"
         }
-    },
-    "require": {
-        "php": "^7.3 || ~8.0.0",
-        "laminas/laminas-zendframework-bridge": "^1.0",
-        "psr/http-message": "^1.0",
-        "psr/http-message-implementation": "^1.0",
-        "psr/http-server-handler": "^1.0"
-    },
-    "require-dev": {
-        "laminas/laminas-coding-standard": "~1.0.0",
-        "laminas/laminas-diactoros": "^2.1.1",
-        "phpunit/phpunit": "^9.3",
-        "psalm/plugin-phpunit": "^0.15.1",
-        "vimeo/psalm": "^4.6"
     },
     "autoload": {
         "psr-4": {
@@ -60,11 +55,16 @@
         ],
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
+        "static-analysis": "psalm --shepherd --stats",
         "test": "phpunit --colors=always",
-        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
-        "static-analysis": "psalm --shepherd --stats"
+        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
     },
-    "replace": {
-        "zendframework/zend-httphandlerrunner": "^1.1.0"
+    "support": {
+        "issues": "https://github.com/laminas/laminas-httphandlerrunner/issues",
+        "forum": "https://discourse.laminas.dev",
+        "chat": "https://laminas.dev/chat",
+        "source": "https://github.com/laminas/laminas-httphandlerrunner",
+        "docs": "https://docs.laminas.dev/laminas-httphandlerrunner/",
+        "rss": "https://github.com/laminas/laminas-httphandlerrunner/releases.atom"
     }
 }
