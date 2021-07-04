@@ -9,8 +9,6 @@ use LaminasTest\HttpHandlerRunner\TestAsset\HeaderStack;
 
 /**
  * Have headers been sent?
- *
- * @return false
  */
 function headers_sent(): bool
 {
@@ -20,11 +18,11 @@ function headers_sent(): bool
 /**
  * Emit a header, without creating actual output artifacts
  */
-function header(string $header, bool $replace = true, ?int $httpResponseCode = null): void
+function header(string $headerName, bool $replace = true, ?int $httpResponseCode = null): void
 {
     HeaderStack::push(
         [
-            'header'      => $header,
+            'header'      => $headerName,
             'replace'     => $replace,
             'status_code' => $httpResponseCode,
         ]
