@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-httphandlerrunner for the canonical source repository
- * @copyright https://github.com/laminas/laminas-httphandlerrunner/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-httphandlerrunner/blob/master/LICENSE.md New BSD License
- */
-
 declare(strict_types=1);
 
 namespace Laminas\HttpHandlerRunner\Emitter;
@@ -13,6 +7,10 @@ namespace Laminas\HttpHandlerRunner\Emitter;
 use Laminas\HttpHandlerRunner\Exception\EmitterException;
 use Psr\Http\Message\ResponseInterface;
 
+use function assert;
+use function header;
+use function headers_sent;
+use function is_string;
 use function ob_get_length;
 use function ob_get_level;
 use function sprintf;
@@ -26,8 +24,8 @@ trait SapiEmitterTrait
      * If either headers have been sent or the output buffer contains content,
      * raises an exception.
      *
-     * @throws EmitterException if headers have already been sent.
-     * @throws EmitterException if output is present in the output buffer.
+     * @throws EmitterException If headers have already been sent.
+     * @throws EmitterException If output is present in the output buffer.
      */
     private function assertNoPreviousOutput(): void
     {
@@ -62,7 +60,7 @@ trait SapiEmitterTrait
             'HTTP/%s %d%s',
             $response->getProtocolVersion(),
             $statusCode,
-            ($reasonPhrase ? ' ' . $reasonPhrase : '')
+            $reasonPhrase ? ' ' . $reasonPhrase : ''
         ), true, $statusCode);
     }
 

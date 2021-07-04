@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-httphandlerrunner for the canonical source repository
- * @copyright https://github.com/laminas/laminas-httphandlerrunner/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-httphandlerrunner/blob/master/LICENSE.md New BSD License
- */
-
 declare(strict_types=1);
 
 namespace LaminasTest\HttpHandlerRunner\Emitter;
@@ -24,6 +18,7 @@ use Psr\Http\Message\StreamInterface;
 use function gc_collect_cycles;
 use function gc_disable;
 use function gc_enable;
+use function is_int;
 use function json_encode;
 use function max;
 use function memory_get_usage;
@@ -48,7 +43,7 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
 
     public function testEmitCallbackStreamResponse(): void
     {
-        $stream = new CallbackStream(function () {
+        $stream   = new CallbackStream(function () {
             return 'it works';
         });
         $response = (new Response())
@@ -122,14 +117,14 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
      */
     public function testEmitStreamResponse(bool $seekable, bool $readable, string $contents, int $maxBufferLength): void
     {
-        $startPosition = 0;
+        $startPosition    = 0;
         $peakBufferLength = 0;
 
         $streamHelper = new MockStreamHelper(
             $contents,
             strlen($contents),
             $startPosition,
-            function (int $bufferLength) use (& $peakBufferLength): void {
+            function (int $bufferLength) use (&$peakBufferLength): void {
                 self::assertIsInt($peakBufferLength);
                 if ($bufferLength > $peakBufferLength) {
                     $peakBufferLength = $bufferLength;
@@ -182,7 +177,6 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
         $emitter->emit($response);
         $emittedContents = ob_get_clean();
 
-
         self::assertSame($contents, $emittedContents);
         self::assertLessThanOrEqual($maxBufferLength, $peakBufferLength);
     }
@@ -200,57 +194,56 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
     {
         return [
             // seekable, readable,                   range,                 contents, max buffer length
-            [true,           true, ['bytes', 10,  20, '*'],    '01234567890987654321',   5],
-            [true,           true, ['bytes', 10,  20, '*'],    '01234567890987654321',  10],
-            [true,           true, ['bytes', 10,  20, '*'],    '01234567890987654321', 100],
-            [true,           true, ['bytes', 10,  20, '*'], '01234567890987654321012',   5],
-            [true,           true, ['bytes', 10,  20, '*'], '01234567890987654321012',  10],
-            [true,           true, ['bytes', 10,  20, '*'], '01234567890987654321012', 100],
-            [true,           true, ['bytes', 10, 100, '*'],    '01234567890987654321',   5],
-            [true,           true, ['bytes', 10, 100, '*'],    '01234567890987654321',  10],
-            [true,           true, ['bytes', 10, 100, '*'],    '01234567890987654321', 100],
-            [true,           true, ['bytes', 10, 100, '*'], '01234567890987654321012',   5],
-            [true,           true, ['bytes', 10, 100, '*'], '01234567890987654321012',  10],
-            [true,           true, ['bytes', 10, 100, '*'], '01234567890987654321012', 100],
-            [true,          false, ['bytes', 10,  20, '*'],    '01234567890987654321',   5],
-            [true,          false, ['bytes', 10,  20, '*'],    '01234567890987654321',  10],
-            [true,          false, ['bytes', 10,  20, '*'],    '01234567890987654321', 100],
-            [true,          false, ['bytes', 10,  20, '*'], '01234567890987654321012',   5],
-            [true,          false, ['bytes', 10,  20, '*'], '01234567890987654321012',  10],
-            [true,          false, ['bytes', 10,  20, '*'], '01234567890987654321012', 100],
-            [true,          false, ['bytes', 10, 100, '*'],    '01234567890987654321',   5],
-            [true,          false, ['bytes', 10, 100, '*'],    '01234567890987654321',  10],
-            [true,          false, ['bytes', 10, 100, '*'],    '01234567890987654321', 100],
-            [true,          false, ['bytes', 10, 100, '*'], '01234567890987654321012',   5],
-            [true,          false, ['bytes', 10, 100, '*'], '01234567890987654321012',  10],
-            [true,          false, ['bytes', 10, 100, '*'], '01234567890987654321012', 100],
-            [false,          true, ['bytes', 10,  20, '*'],    '01234567890987654321',   5],
-            [false,          true, ['bytes', 10,  20, '*'],    '01234567890987654321',  10],
-            [false,          true, ['bytes', 10,  20, '*'],    '01234567890987654321', 100],
-            [false,          true, ['bytes', 10,  20, '*'], '01234567890987654321012',   5],
-            [false,          true, ['bytes', 10,  20, '*'], '01234567890987654321012',  10],
-            [false,          true, ['bytes', 10,  20, '*'], '01234567890987654321012', 100],
-            [false,          true, ['bytes', 10, 100, '*'],    '01234567890987654321',   5],
-            [false,          true, ['bytes', 10, 100, '*'],    '01234567890987654321',  10],
-            [false,          true, ['bytes', 10, 100, '*'],    '01234567890987654321', 100],
-            [false,          true, ['bytes', 10, 100, '*'], '01234567890987654321012',   5],
-            [false,          true, ['bytes', 10, 100, '*'], '01234567890987654321012',  10],
-            [false,          true, ['bytes', 10, 100, '*'], '01234567890987654321012', 100],
-            [false,         false, ['bytes', 10,  20, '*'],    '01234567890987654321',   5],
-            [false,         false, ['bytes', 10,  20, '*'],    '01234567890987654321',  10],
-            [false,         false, ['bytes', 10,  20, '*'],    '01234567890987654321', 100],
-            [false,         false, ['bytes', 10,  20, '*'], '01234567890987654321012',   5],
-            [false,         false, ['bytes', 10,  20, '*'], '01234567890987654321012',  10],
-            [false,         false, ['bytes', 10,  20, '*'], '01234567890987654321012', 100],
-            [false,         false, ['bytes', 10, 100, '*'],    '01234567890987654321',   5],
-            [false,         false, ['bytes', 10, 100, '*'],    '01234567890987654321',  10],
-            [false,         false, ['bytes', 10, 100, '*'],    '01234567890987654321', 100],
-            [false,         false, ['bytes', 10, 100, '*'], '01234567890987654321012',   5],
-            [false,         false, ['bytes', 10, 100, '*'], '01234567890987654321012',  10],
-            [false,         false, ['bytes', 10, 100, '*'], '01234567890987654321012', 100],
+            [true, true, ['bytes', 10, 20, '*'], '01234567890987654321', 5],
+            [true, true, ['bytes', 10, 20, '*'], '01234567890987654321', 10],
+            [true, true, ['bytes', 10, 20, '*'], '01234567890987654321', 100],
+            [true, true, ['bytes', 10, 20, '*'], '01234567890987654321012', 5],
+            [true, true, ['bytes', 10, 20, '*'], '01234567890987654321012', 10],
+            [true, true, ['bytes', 10, 20, '*'], '01234567890987654321012', 100],
+            [true, true, ['bytes', 10, 100, '*'], '01234567890987654321', 5],
+            [true, true, ['bytes', 10, 100, '*'], '01234567890987654321', 10],
+            [true, true, ['bytes', 10, 100, '*'], '01234567890987654321', 100],
+            [true, true, ['bytes', 10, 100, '*'], '01234567890987654321012', 5],
+            [true, true, ['bytes', 10, 100, '*'], '01234567890987654321012', 10],
+            [true, true, ['bytes', 10, 100, '*'], '01234567890987654321012', 100],
+            [true, false, ['bytes', 10, 20, '*'], '01234567890987654321', 5],
+            [true, false, ['bytes', 10, 20, '*'], '01234567890987654321', 10],
+            [true, false, ['bytes', 10, 20, '*'], '01234567890987654321', 100],
+            [true, false, ['bytes', 10, 20, '*'], '01234567890987654321012', 5],
+            [true, false, ['bytes', 10, 20, '*'], '01234567890987654321012', 10],
+            [true, false, ['bytes', 10, 20, '*'], '01234567890987654321012', 100],
+            [true, false, ['bytes', 10, 100, '*'], '01234567890987654321', 5],
+            [true, false, ['bytes', 10, 100, '*'], '01234567890987654321', 10],
+            [true, false, ['bytes', 10, 100, '*'], '01234567890987654321', 100],
+            [true, false, ['bytes', 10, 100, '*'], '01234567890987654321012', 5],
+            [true, false, ['bytes', 10, 100, '*'], '01234567890987654321012', 10],
+            [true, false, ['bytes', 10, 100, '*'], '01234567890987654321012', 100],
+            [false, true, ['bytes', 10, 20, '*'], '01234567890987654321', 5],
+            [false, true, ['bytes', 10, 20, '*'], '01234567890987654321', 10],
+            [false, true, ['bytes', 10, 20, '*'], '01234567890987654321', 100],
+            [false, true, ['bytes', 10, 20, '*'], '01234567890987654321012', 5],
+            [false, true, ['bytes', 10, 20, '*'], '01234567890987654321012', 10],
+            [false, true, ['bytes', 10, 20, '*'], '01234567890987654321012', 100],
+            [false, true, ['bytes', 10, 100, '*'], '01234567890987654321', 5],
+            [false, true, ['bytes', 10, 100, '*'], '01234567890987654321', 10],
+            [false, true, ['bytes', 10, 100, '*'], '01234567890987654321', 100],
+            [false, true, ['bytes', 10, 100, '*'], '01234567890987654321012', 5],
+            [false, true, ['bytes', 10, 100, '*'], '01234567890987654321012', 10],
+            [false, true, ['bytes', 10, 100, '*'], '01234567890987654321012', 100],
+            [false, false, ['bytes', 10, 20, '*'], '01234567890987654321', 5],
+            [false, false, ['bytes', 10, 20, '*'], '01234567890987654321', 10],
+            [false, false, ['bytes', 10, 20, '*'], '01234567890987654321', 100],
+            [false, false, ['bytes', 10, 20, '*'], '01234567890987654321012', 5],
+            [false, false, ['bytes', 10, 20, '*'], '01234567890987654321012', 10],
+            [false, false, ['bytes', 10, 20, '*'], '01234567890987654321012', 100],
+            [false, false, ['bytes', 10, 100, '*'], '01234567890987654321', 5],
+            [false, false, ['bytes', 10, 100, '*'], '01234567890987654321', 10],
+            [false, false, ['bytes', 10, 100, '*'], '01234567890987654321', 100],
+            [false, false, ['bytes', 10, 100, '*'], '01234567890987654321012', 5],
+            [false, false, ['bytes', 10, 100, '*'], '01234567890987654321012', 10],
+            [false, false, ['bytes', 10, 100, '*'], '01234567890987654321012', 100],
         ];
     }
-
 
     /**
      * @dataProvider emitRangeStreamResponseProvider
@@ -269,7 +262,7 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
         int $maxBufferLength
     ): void {
         [, $first, $last] = $range;
-        $size = strlen($contents);
+        $size             = strlen($contents);
 
         $startPosition = $readable && ! $seekable
             ? $first
@@ -277,7 +270,7 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
 
         $peakBufferLength = 0;
 
-        $trackPeakBufferLength = static function (int $bufferLength) use (& $peakBufferLength): void {
+        $trackPeakBufferLength = static function (int $bufferLength) use (&$peakBufferLength): void {
             self::assertIsInt($peakBufferLength);
             if ($bufferLength > $peakBufferLength) {
                 $peakBufferLength = $bufferLength;
@@ -370,18 +363,18 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
             [false,         false,   100,  320,       null,  512],
             [false,         false,   100,  320,       null, 4096],
             [false,         false,   100,  320,       null, 8192],
-            [true,           true,  1000,   20,   [25, 75],  512],
-            [true,           true,  1000,   20,   [25, 75], 4096],
-            [true,           true,  1000,   20,   [25, 75], 8192],
-            [false,          true,  1000,   20,   [25, 75],  512],
-            [false,          true,  1000,   20,   [25, 75], 4096],
-            [false,          true,  1000,   20,   [25, 75], 8192],
-            [true,           true,  1000,   20, [250, 750],  512],
-            [true,           true,  1000,   20, [250, 750], 4096],
-            [true,           true,  1000,   20, [250, 750], 8192],
-            [false,          true,  1000,   20, [250, 750],  512],
-            [false,          true,  1000,   20, [250, 750], 4096],
-            [false,          true,  1000,   20, [250, 750], 8192],
+            [true, true, 1000, 20, [25, 75], 512],
+            [true, true, 1000, 20, [25, 75], 4096],
+            [true, true, 1000, 20, [25, 75], 8192],
+            [false, true, 1000, 20, [25, 75], 512],
+            [false, true, 1000, 20, [25, 75], 4096],
+            [false, true, 1000, 20, [25, 75], 8192],
+            [true, true, 1000, 20, [250, 750], 512],
+            [true, true, 1000, 20, [250, 750], 4096],
+            [true, true, 1000, 20, [250, 750], 8192],
+            [false, true, 1000, 20, [250, 750], 512],
+            [false, true, 1000, 20, [250, 750], 4096],
+            [false, true, 1000, 20, [250, 750], 8192],
         ];
     }
 
@@ -394,7 +387,6 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
      * @param int        $maxAllowedBlocks Maximum allowed memory usage in block units.
      * @param null|array $rangeBlocks      Emitted range of data in block units [$firstBlock, $lastBlock].
      * @param int        $maxBufferLength  Maximum buffer length used in the emitter call.
-     *
      * @psalm-param array{0:int,1:int}|null $rangeBlocks
      */
     public function testEmitMemoryUsage(
@@ -405,30 +397,30 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
         ?array $rangeBlocks,
         int $maxBufferLength
     ): void {
-        $sizeBytes = $maxBufferLength * $sizeBlocks;
+        $sizeBytes             = $maxBufferLength * $sizeBlocks;
         $maxAllowedMemoryUsage = $maxBufferLength * $maxAllowedBlocks;
-        $peakBufferLength = 0;
-        $peakMemoryUsage = 0;
+        $peakBufferLength      = 0;
+        $peakMemoryUsage       = 0;
 
         $position = 0;
 
         $first = null;
-        $last = null;
+        $last  = null;
 
         if ($rangeBlocks !== null) {
-            $first    = $maxBufferLength * $rangeBlocks[0];
-            $last     = ($maxBufferLength * $rangeBlocks[1]) + $maxBufferLength - 1;
+            $first = $maxBufferLength * $rangeBlocks[0];
+            $last  = ($maxBufferLength * $rangeBlocks[1]) + $maxBufferLength - 1;
 
             if ($readable && ! $seekable) {
                 $position = $first;
             }
         }
 
-        $closureTrackMemoryUsage = static function () use (& $peakMemoryUsage): void {
+        $closureTrackMemoryUsage = static function () use (&$peakMemoryUsage): void {
             $peakMemoryUsage = (int) max($peakMemoryUsage, memory_get_usage());
         };
 
-        $contentsCallback = function (int $position, int $length = null) use (& $sizeBytes): string {
+        $contentsCallback      = function (int $position, ?int $length = null) use (&$sizeBytes): string {
             self::assertIsInt($sizeBytes);
             if (! $length) {
                 $length = $sizeBytes - $position;
@@ -437,7 +429,7 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
             return str_repeat('0', $length);
         };
 
-        $trackPeakBufferLength = function (int $bufferLength) use (& $peakBufferLength): void {
+        $trackPeakBufferLength = function (int $bufferLength) use (&$peakBufferLength): void {
             if ($bufferLength > $peakBufferLength) {
                 $peakBufferLength = $bufferLength;
             }
@@ -484,7 +476,7 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
         }
 
         ob_start(
-            function () use (& $closureTrackMemoryUsage) {
+            function () use (&$closureTrackMemoryUsage) {
                 self::assertIsCallable($closureTrackMemoryUsage);
                 $closureTrackMemoryUsage();
                 return '';
@@ -618,7 +610,7 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
 
     public function testContentRangeUnseekableBody(): void
     {
-        $body = new CallbackStream(function () {
+        $body     = new CallbackStream(function () {
             return 'Hello world';
         });
         $response = (new Response())

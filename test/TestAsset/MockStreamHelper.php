@@ -2,13 +2,17 @@
 
 /**
  * @see       https://github.com/laminas/laminas-httphandlerrunner for the canonical source repository
- * @copyright https://github.com/laminas/laminas-httphandlerrunner/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-httphandlerrunner/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
 
 namespace LaminasTest\HttpHandlerRunner\TestAsset;
+
+use function is_callable;
+use function strlen;
+use function substr;
+
+use const SEEK_SET;
 
 class MockStreamHelper
 {
@@ -25,9 +29,12 @@ class MockStreamHelper
     private $startPosition;
 
     /** @var null|callable */
-    private $trackPeakBufferLength = null;
+    private $trackPeakBufferLength;
 
-    /** @param string|callable(int,?int=null):string $contents */
+    /**
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingAnyTypeHint
+     * @param string|callable(int,?int=null):string $contents
+     */
     public function __construct(
         $contents,
         int $size,

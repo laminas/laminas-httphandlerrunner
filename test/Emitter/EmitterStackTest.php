@@ -2,8 +2,6 @@
 
 /**
  * @see       https://github.com/laminas/laminas-httphandlerrunner for the canonical source repository
- * @copyright https://github.com/laminas/laminas-httphandlerrunner/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-httphandlerrunner/blob/master/LICENSE.md New BSD License
  */
 
 declare(strict_types=1);
@@ -56,7 +54,6 @@ class EmitterStackTest extends TestCase
 
     /**
      * @dataProvider nonEmitterValues
-     *
      * @param mixed $value
      */
     public function testCannotPushNonEmitterToStack($value): void
@@ -68,7 +65,6 @@ class EmitterStackTest extends TestCase
 
     /**
      * @dataProvider nonEmitterValues
-     *
      * @param mixed $value
      */
     public function testCannotUnshiftNonEmitterToStack($value): void
@@ -80,7 +76,6 @@ class EmitterStackTest extends TestCase
 
     /**
      * @dataProvider nonEmitterValues
-     *
      * @param mixed $value
      */
     public function testCannotSetNonEmitterToSpecificIndex($value): void
@@ -92,7 +87,7 @@ class EmitterStackTest extends TestCase
 
     public function testOffsetSetReplacesExistingValue(): void
     {
-        $first = $this->createMock(EmitterInterface::class);
+        $first       = $this->createMock(EmitterInterface::class);
         $replacement = $this->createMock(EmitterInterface::class);
         $this->emitter->push($first);
         $this->emitter->offsetSet(0, $replacement);
@@ -101,7 +96,7 @@ class EmitterStackTest extends TestCase
 
     public function testUnshiftAddsNewEmitter(): void
     {
-        $first = $this->createMock(EmitterInterface::class);
+        $first  = $this->createMock(EmitterInterface::class);
         $second = $this->createMock(EmitterInterface::class);
         $this->emitter->push($first);
         $this->emitter->unshift($second);
