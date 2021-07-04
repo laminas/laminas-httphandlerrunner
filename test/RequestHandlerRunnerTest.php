@@ -57,11 +57,11 @@ class RequestHandlerRunnerTest extends TestCase
     {
         $request = $this->createMock(ServerRequestInterface::class);
 
-        $serverRequestFactory = function () use ($request) {
+        $serverRequestFactory = function () use ($request): ServerRequestInterface {
             return $request;
         };
 
-        $errorResponseGenerator = function ($e) {
+        $errorResponseGenerator = function () {
             Assert::fail('Should never hit error response generator');
         };
 
@@ -113,7 +113,7 @@ class RequestHandlerRunnerTest extends TestCase
 
     public function testRaisesTypeErrorIfServerErrorResponseGeneratorFactoryDoesNotReturnAResponse(): void
     {
-        $serverRequestFactory = function () {
+        $serverRequestFactory = function (): ?ServerRequestInterface {
             return null;
         };
 

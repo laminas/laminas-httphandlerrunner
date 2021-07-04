@@ -263,7 +263,7 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
         string $contents,
         int $maxBufferLength
     ): void {
-        list($unit, $first, $last, $length) = $range;
+        list($_, $first, $last, $_) = $range;
         $size = strlen($contents);
 
         $startPosition = $readable && ! $seekable

@@ -16,6 +16,9 @@ use function preg_match;
 use function strlen;
 use function substr;
 
+/**
+ * @psalm-type ParsedRangeType = array{0:string,1:int,2:int,3:'*'|int}
+ */
 class SapiStreamEmitter implements EmitterInterface
 {
     use SapiEmitterTrait;
@@ -78,10 +81,11 @@ class SapiStreamEmitter implements EmitterInterface
 
     /**
      * Emit a range of the message body.
+     * @psalm-param ParsedRangeType $range
      */
     private function emitBodyRange(array $range, ResponseInterface $response) : void
     {
-        list($unit, $first, $last, $length) = $range;
+        [$_, $first, $last, $_] = $range;
 
         $body = $response->getBody();
 
@@ -118,6 +122,7 @@ class SapiStreamEmitter implements EmitterInterface
      *
      * @return null|array [unit, first, last, length]; returns null if no
      *     content range or an invalid content range is provided
+     * @psalm-return null|ParsedRangeType
      */
     private function parseContentRange(string $header) : ?array
     {
