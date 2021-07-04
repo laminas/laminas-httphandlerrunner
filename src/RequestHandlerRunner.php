@@ -48,7 +48,7 @@ class RequestHandlerRunner
      * The factory will receive the Throwable or Exception that caused the error,
      * and must return a Psr\Http\Message\ResponseInterface instance.
      *
-     * @var callable
+     * @var callable(Throwable):ResponseInterface
      */
     private $serverRequestErrorResponseGenerator;
 
@@ -56,10 +56,14 @@ class RequestHandlerRunner
      * A factory capable of generating a Psr\Http\Message\ServerRequestInterface instance.
      * The factory will not receive any arguments.
      *
-     * @var callable
+     * @var callable():ServerRequestInterface
      */
     private $serverRequestFactory;
 
+    /**
+     * @param callable():ServerRequestInterface     $serverRequestFactory
+     * @param callable(Throwable):ResponseInterface $serverRequestErrorResponseGenerator
+     */
     public function __construct(
         RequestHandlerInterface $handler,
         Emitter\EmitterInterface $emitter,
@@ -69,15 +73,8 @@ class RequestHandlerRunner
         $this->handler = $handler;
         $this->emitter = $emitter;
 
-        // Factories are cast as Closures to ensure return type safety.
-        $this->serverRequestFactory = function () use ($serverRequestFactory) : ServerRequestInterface {
-            return $serverRequestFactory();
-        };
-
-        $this->serverRequestErrorResponseGenerator =
-            function (Throwable $exception) use ($serverRequestErrorResponseGenerator) : ResponseInterface {
-                return $serverRequestErrorResponseGenerator($exception);
-            };
+        $this->serverRequestFactory = $serverRequestFactory;
+        $this->serverRequestErrorResponseGenerator = $serverRequestErrorResponseGenerator;
     }
 
     /**

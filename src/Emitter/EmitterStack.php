@@ -21,6 +21,7 @@ use SplStack;
  *
  * When iterating the stack, the first emitter to return a boolean
  * true value will short-circuit iteration.
+ * @template-extends SplStack<EmitterInterface>
  */
 class EmitterStack extends SplStack implements EmitterInterface
 {
@@ -47,14 +48,14 @@ class EmitterStack extends SplStack implements EmitterInterface
 
     /**
      * Set an emitter on the stack by index.
-     *
-     * @param mixed $index
+     * @param int $index
      * @param EmitterInterface $emitter
      * @return void
-     * @throws InvalidArgumentException if not an EmitterInterface instance
+     * @throws Exception\InvalidEmitterException if not an EmitterInterface instance
      */
     public function offsetSet($index, $emitter)
     {
+        /** @psalm-suppress RedundantConditionGivenDocblockType */
         $this->validateEmitter($emitter);
         parent::offsetSet($index, $emitter);
     }
@@ -64,10 +65,11 @@ class EmitterStack extends SplStack implements EmitterInterface
      *
      * @param EmitterInterface $emitter
      * @return void
-     * @throws InvalidArgumentException if not an EmitterInterface instance
+     * @throws Exception\InvalidEmitterException if not an EmitterInterface instance
      */
     public function push($emitter)
     {
+        /** @psalm-suppress RedundantConditionGivenDocblockType */
         $this->validateEmitter($emitter);
         parent::push($emitter);
     }
@@ -77,10 +79,11 @@ class EmitterStack extends SplStack implements EmitterInterface
      *
      * @param EmitterInterface $emitter
      * @return void
-     * @throws InvalidArgumentException if not an EmitterInterface instance
+     * @throws Exception\InvalidEmitterException if not an EmitterInterface instance
      */
     public function unshift($emitter)
     {
+        /** @psalm-suppress RedundantConditionGivenDocblockType */
         $this->validateEmitter($emitter);
         parent::unshift($emitter);
     }
@@ -90,6 +93,7 @@ class EmitterStack extends SplStack implements EmitterInterface
      *
      * @param mixed $emitter
      * @throws Exception\InvalidEmitterException for non-emitter instances
+     * @psalm-assert EmitterInterface $emitter
      */
     private function validateEmitter($emitter) : void
     {

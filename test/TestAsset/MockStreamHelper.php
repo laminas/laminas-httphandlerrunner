@@ -12,7 +12,7 @@ namespace LaminasTest\HttpHandlerRunner\TestAsset;
 
 class MockStreamHelper
 {
-    /** @var string|callable */
+    /** @var string|callable(int,?int=null):string */
     private $contents;
 
     /** @var int */
@@ -27,7 +27,7 @@ class MockStreamHelper
     /** @var null|callable */
     private $trackPeakBufferLength = null;
 
-    /** @param string|callable $contents */
+    /** @param string|callable(int,?int=null):string $contents */
     public function __construct(
         $contents,
         int $size,

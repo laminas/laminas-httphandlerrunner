@@ -17,9 +17,6 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use SplStack;
 
-/**
- * @covers Laminas\HttpHandlerRunner\Emitter\EmitterStack
- */
 class EmitterStackTest extends TestCase
 {
     /** @var EmitterStack */
@@ -65,6 +62,7 @@ class EmitterStackTest extends TestCase
     public function testCannotPushNonEmitterToStack($value): void
     {
         $this->expectException(Exception\InvalidEmitterException::class);
+        /** @psalm-suppress MixedArgument */
         $this->emitter->push($value);
     }
 
@@ -76,6 +74,7 @@ class EmitterStackTest extends TestCase
     public function testCannotUnshiftNonEmitterToStack($value): void
     {
         $this->expectException(Exception\InvalidEmitterException::class);
+        /** @psalm-suppress MixedArgument */
         $this->emitter->unshift($value);
     }
 
@@ -87,6 +86,7 @@ class EmitterStackTest extends TestCase
     public function testCannotSetNonEmitterToSpecificIndex($value): void
     {
         $this->expectException(Exception\InvalidEmitterException::class);
+        /** @psalm-suppress MixedArgument */
         $this->emitter->offsetSet(0, $value);
     }
 

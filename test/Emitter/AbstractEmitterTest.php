@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace LaminasTest\HttpHandlerRunner\Emitter;
 
 use Laminas\Diactoros\Response;
+use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use LaminasTest\HttpHandlerRunner\TestAsset\HeaderStack;
 use PHPUnit\Framework\TestCase;
@@ -22,7 +23,7 @@ use function ob_start;
 abstract class AbstractEmitterTest extends TestCase
 {
     /**
-     * @var SapiEmitter
+     * @var EmitterInterface
      */
     protected $emitter;
 
@@ -48,8 +49,8 @@ abstract class AbstractEmitterTest extends TestCase
         $this->emitter->emit($response);
         ob_end_clean();
 
-        $this->assertTrue(HeaderStack::has('HTTP/1.1 200 OK'));
-        $this->assertTrue(HeaderStack::has('Content-Type: text/plain'));
+        self::assertTrue(HeaderStack::has('HTTP/1.1 200 OK'));
+        self::assertTrue(HeaderStack::has('Content-Type: text/plain'));
     }
 
     public function testEmitsMessageBody(): void
@@ -78,7 +79,7 @@ abstract class AbstractEmitterTest extends TestCase
             ['header' => 'HTTP/1.1 200 OK', 'replace' => true, 'status_code' => 200],
         ];
 
-        $this->assertSame($expectedStack, HeaderStack::stack());
+        self::assertSame($expectedStack, HeaderStack::stack());
     }
 
     public function testDoesNotLetResponseCodeBeOverriddenByPHP(): void
@@ -96,7 +97,7 @@ abstract class AbstractEmitterTest extends TestCase
             ['header' => 'HTTP/1.1 202 Accepted', 'replace' => true, 'status_code' => 202],
         ];
 
-        $this->assertSame($expectedStack, HeaderStack::stack());
+        self::assertSame($expectedStack, HeaderStack::stack());
     }
 
     public function testDoesNotInjectContentLengthHeaderIfStreamSizeIsUnknown(): void
@@ -112,7 +113,7 @@ abstract class AbstractEmitterTest extends TestCase
         $this->emitter->emit($response);
         ob_end_clean();
         foreach (HeaderStack::stack() as $header) {
-            $this->assertStringNotContainsString('Content-Length:', $header['header']);
+            self::assertStringNotContainsString('Content-Length:', $header['header']);
         }
     }
 }
