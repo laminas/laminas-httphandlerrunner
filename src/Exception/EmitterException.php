@@ -6,11 +6,13 @@ namespace Laminas\HttpHandlerRunner\Exception;
 
 use RuntimeException;
 
+use function sprintf;
+
 class EmitterException extends RuntimeException implements ExceptionInterface
 {
-    public static function forHeadersSent(): self
+    public static function forHeadersSent(string $filename, int $line): self
     {
-        return new self('Unable to emit response; headers already sent');
+        return new self(sprintf('Unable to emit response; headers already sent in %s:%d', $filename, $line));
     }
 
     public static function forOutputSent(): self

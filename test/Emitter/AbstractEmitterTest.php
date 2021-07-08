@@ -6,13 +6,17 @@ namespace LaminasTest\HttpHandlerRunner\Emitter;
 
 use Laminas\Diactoros\Response;
 use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
+use Laminas\HttpHandlerRunner\Emitter\HeadersSent;
 use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
+use Laminas\HttpHandlerRunner\Exception\EmitterException;
 use LaminasTest\HttpHandlerRunner\TestAsset\HeaderStack;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
 use function ob_end_clean;
 use function ob_start;
+use function sprintf;
 
 abstract class AbstractEmitterTest extends TestCase
 {
@@ -22,12 +26,14 @@ abstract class AbstractEmitterTest extends TestCase
     public function setUp(): void
     {
         HeaderStack::reset();
+        HeadersSent::reset();
         $this->emitter = new SapiEmitter();
     }
 
     public function tearDown(): void
     {
         HeaderStack::reset();
+        HeadersSent::reset();
     }
 
     public function testEmitsResponseHeaders(): void
@@ -107,5 +113,21 @@ abstract class AbstractEmitterTest extends TestCase
         foreach (HeaderStack::stack() as $header) {
             self::assertStringNotContainsString('Content-Length:', $header['header']);
         }
+    }
+
+    public function testWillThrowEmitterExceptionWhenHeadersAreAlreadySent(): void
+    {
+        $sentInLine = __LINE__;
+        HeadersSent::markSent(__FILE__, $sentInLine);
+
+        $this->expectException(EmitterException::class);
+        $this->expectExceptionMessage(
+            sprintf(
+                'Unable to emit response; headers already sent in %s:%d',
+                __FILE__,
+                $sentInLine
+            )
+        );
+        $this->emitter->emit($this->createMock(ResponseInterface::class));
     }
 }
