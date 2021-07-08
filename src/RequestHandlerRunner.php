@@ -26,7 +26,7 @@ use Throwable;
  * then the runner will use the composed error response generator to generate a
  * response, based on the exception or throwable raised.
  */
-class RequestHandlerRunner
+final class RequestHandlerRunner implements RequestHandlerRunnerInterface
 {
     /**
      * @var Emitter\EmitterInterface
@@ -80,9 +80,6 @@ class RequestHandlerRunner
             };
     }
 
-    /**
-     * Run the application
-     */
     public function run() : void
     {
         try {
