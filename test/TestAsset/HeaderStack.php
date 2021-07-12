@@ -10,11 +10,13 @@ namespace LaminasTest\HttpHandlerRunner\TestAsset;
 
 /**
  * Store output artifacts
+ * @psalm-type HeaderType = array{header:string,replace:bool,status_code:int|null}
  */
 class HeaderStack
 {
     /**
      * @var string[][]
+     * @psalm-var list<HeaderType>
      */
     private static $data = [];
 
@@ -30,6 +32,7 @@ class HeaderStack
      * Push a header on the stack
      *
      * @param string[] $header
+     * @psalm-param HeaderType $header
      */
     public static function push(array $header): void
     {
@@ -40,6 +43,7 @@ class HeaderStack
      * Return the current header stack
      *
      * @return string[][]
+     * @psalm-return list<HeaderType>
      */
     public static function stack()
     {

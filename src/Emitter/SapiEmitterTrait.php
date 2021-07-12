@@ -16,7 +16,6 @@ use Psr\Http\Message\ResponseInterface;
 use function ob_get_length;
 use function ob_get_level;
 use function sprintf;
-use function str_replace;
 use function ucwords;
 
 trait SapiEmitterTrait
@@ -32,6 +31,7 @@ trait SapiEmitterTrait
      */
     private function assertNoPreviousOutput(): void
     {
+        /** @psalm-suppress DocblockTypeContradiction {@see \Laminas\HttpHandlerRunner\Emitter\headers_sent()} */
         if (headers_sent()) {
             throw EmitterException::forHeadersSent();
         }
@@ -79,8 +79,9 @@ trait SapiEmitterTrait
         $statusCode = $response->getStatusCode();
 
         foreach ($response->getHeaders() as $header => $values) {
+            assert(is_string($header));
             $name  = $this->filterHeader($header);
-            $first = $name === 'Set-Cookie' ? false : true;
+            $first = $name !== 'Set-Cookie';
             foreach ($values as $value) {
                 header(sprintf(
                     '%s: %s',

@@ -15,23 +15,19 @@ use LaminasTest\HttpHandlerRunner\TestAsset\HeaderStack;
  *
  * @return false
  */
-function headers_sent()
+function headers_sent(): bool
 {
     return false;
 }
 
 /**
  * Emit a header, without creating actual output artifacts
- *
- * @param string   $string
- * @param bool     $replace
- * @param int|null $http_response_code
  */
-function header($string, $replace = true, $http_response_code = null)
+function header(string $header, bool $replace = true, int $http_response_code = null): void
 {
     HeaderStack::push(
         [
-            'header'      => $string,
+            'header'      => $header,
             'replace'     => $replace,
             'status_code' => $http_response_code,
         ]

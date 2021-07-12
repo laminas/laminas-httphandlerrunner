@@ -26,14 +26,14 @@ class RequestHandlerRunnerTest extends TestCase
     public function testUsesErrorResponseGeneratorToGenerateResponseWhenRequestFactoryRaisesException(): void
     {
         $exception = new Exception();
-        $serverRequestFactory = function () use ($exception) {
+        $serverRequestFactory = function () use ($exception): ServerRequestInterface {
             throw $exception;
         };
 
         $response = $this->createMock(ResponseInterface::class);
 
-        $errorResponseGenerator = function ($e) use ($exception, $response) {
-            Assert::assertSame($exception, $e);
+        $errorResponseGenerator = function (Throwable $passedThrowable) use ($exception, $response): ResponseInterface {
+            Assert::assertSame($exception, $passedThrowable);
             return $response;
         };
 
@@ -50,19 +50,19 @@ class RequestHandlerRunnerTest extends TestCase
             $errorResponseGenerator
         );
 
-        $this->assertNull($runner->run());
+        self::assertNull($runner->run());
     }
 
     public function testRunPassesRequestGeneratedByRequestFactoryToHandleWhenNoRequestPassedToRun(): void
     {
         $request = $this->createMock(ServerRequestInterface::class);
 
-        $serverRequestFactory = function () use ($request) {
+        $serverRequestFactory = function () use ($request): ServerRequestInterface {
             return $request;
         };
 
-        $errorResponseGenerator = function ($e) {
-            Assert::fail('Should never hit error response generator');
+        $errorResponseGenerator = function (): ResponseInterface {
+            self::fail('Should never hit error response generator');
         };
 
         $response = $this->createMock(ResponseInterface::class);
@@ -80,62 +80,6 @@ class RequestHandlerRunnerTest extends TestCase
             $errorResponseGenerator
         );
 
-        $this->assertNull($runner->run());
-    }
-
-    public function testRaisesTypeErrorIfServerRequestFactoryDoesNotReturnARequestInstance(): void
-    {
-        $serverRequestFactory = function () {
-            return null;
-        };
-
-        $response = $this->createMock(ResponseInterface::class);
-        $errorResponseGenerator = function (Throwable $e) use ($response) {
-            Assert::assertInstanceOf(TypeError::class, $e);
-            return $response;
-        };
-
-        $handler = $this->createMock(RequestHandlerInterface::class);
-        $handler->expects($this->never())->method('handle');
-
-        $emitter = $this->createMock(EmitterInterface::class);
-        $emitter->expects($this->once())->method('emit')->with($response);
-
-        $runner = new RequestHandlerRunner(
-            $handler,
-            $emitter,
-            $serverRequestFactory,
-            $errorResponseGenerator
-        );
-
-        $this->assertNull($runner->run());
-    }
-
-    public function testRaisesTypeErrorIfServerErrorResponseGeneratorFactoryDoesNotReturnAResponse(): void
-    {
-        $serverRequestFactory = function () {
-            return null;
-        };
-
-        $errorResponseGenerator = function (Throwable $e) {
-            Assert::assertInstanceOf(TypeError::class, $e);
-            return null;
-        };
-
-        $handler = $this->createMock(RequestHandlerInterface::class);
-        $handler->expects($this->never())->method('handle');
-
-        $emitter = $this->createMock(EmitterInterface::class);
-        $emitter->expects($this->never())->method('emit');
-
-        $runner = new RequestHandlerRunner(
-            $handler,
-            $emitter,
-            $serverRequestFactory,
-            $errorResponseGenerator
-        );
-
-        $this->expectException(TypeError::class);
-        $runner->run();
+        self::assertNull($runner->run());
     }
 }
