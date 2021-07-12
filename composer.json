@@ -62,8 +62,5 @@
         "test": "phpunit --colors=always",
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
         "static-analysis": "psalm --shepherd --stats"
-    },
-    "replace": {
-        "zendframework/zend-httphandlerrunner": "^1.1.0"
     }
 }
