@@ -1,10 +1,7 @@
-<?php
+<?php // phpcs:disable WebimpressCodingStandard.NamingConventions.ValidVariableName.NotCamelCaps
 
-/**
- * @see       https://github.com/laminas/laminas-httphandlerrunner for the canonical source repository
- * @copyright https://github.com/laminas/laminas-httphandlerrunner/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-httphandlerrunner/blob/master/LICENSE.md New BSD License
- */
+
+declare(strict_types=1);
 
 namespace Laminas\HttpHandlerRunner\Emitter;
 
@@ -12,8 +9,6 @@ use LaminasTest\HttpHandlerRunner\TestAsset\HeaderStack;
 
 /**
  * Have headers been sent?
- *
- * @return false
  */
 function headers_sent(): bool
 {
@@ -23,13 +18,13 @@ function headers_sent(): bool
 /**
  * Emit a header, without creating actual output artifacts
  */
-function header(string $header, bool $replace = true, int $http_response_code = null): void
+function header(string $headerName, bool $replace = true, ?int $httpResponseCode = null): void
 {
     HeaderStack::push(
         [
-            'header'      => $header,
+            'header'      => $headerName,
             'replace'     => $replace,
-            'status_code' => $http_response_code,
+            'status_code' => $httpResponseCode,
         ]
     );
 }

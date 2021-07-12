@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-httphandlerrunner for the canonical source repository
- * @copyright https://github.com/laminas/laminas-httphandlerrunner/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-httphandlerrunner/blob/master/LICENSE.md New BSD License
- */
-
 declare(strict_types=1);
 
 namespace Laminas\HttpHandlerRunner\Emitter;
@@ -13,6 +7,11 @@ namespace Laminas\HttpHandlerRunner\Emitter;
 use Laminas\HttpHandlerRunner\Exception\EmitterException;
 use Psr\Http\Message\ResponseInterface;
 
+use function assert;
+use function function_exists;
+use function header;
+use function headers_sent;
+use function is_string;
 use function ob_get_length;
 use function ob_get_level;
 use function sprintf;
@@ -26,13 +25,12 @@ trait SapiEmitterTrait
      * If either headers have been sent or the output buffer contains content,
      * raises an exception.
      *
-     * @throws EmitterException if headers have already been sent.
-     * @throws EmitterException if output is present in the output buffer.
+     * @throws EmitterException If headers have already been sent.
+     * @throws EmitterException If output is present in the output buffer.
      */
     private function assertNoPreviousOutput(): void
     {
-        /** @psalm-suppress DocblockTypeContradiction {@see \Laminas\HttpHandlerRunner\Emitter\headers_sent()} */
-        if (headers_sent()) {
+        if ($this->headersSent()) {
             throw EmitterException::forHeadersSent();
         }
 
@@ -58,11 +56,11 @@ trait SapiEmitterTrait
         $reasonPhrase = $response->getReasonPhrase();
         $statusCode   = $response->getStatusCode();
 
-        header(sprintf(
+        $this->header(sprintf(
             'HTTP/%s %d%s',
             $response->getProtocolVersion(),
             $statusCode,
-            ($reasonPhrase ? ' ' . $reasonPhrase : '')
+            $reasonPhrase ? ' ' . $reasonPhrase : ''
         ), true, $statusCode);
     }
 
@@ -83,7 +81,7 @@ trait SapiEmitterTrait
             $name  = $this->filterHeader($header);
             $first = $name !== 'Set-Cookie';
             foreach ($values as $value) {
-                header(sprintf(
+                $this->header(sprintf(
                     '%s: %s',
                     $name,
                     $value
@@ -99,5 +97,26 @@ trait SapiEmitterTrait
     private function filterHeader(string $header): string
     {
         return ucwords($header, '-');
+    }
+
+    private function headersSent(): bool
+    {
+        if (function_exists('Laminas\HttpHandlerRunner\Emitter\headers_sent')) {
+            // phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly.ReferenceViaFullyQualifiedName
+            return \Laminas\HttpHandlerRunner\Emitter\headers_sent();
+        }
+
+        return headers_sent();
+    }
+
+    private function header(string $headerName, bool $replace, int $statusCode): void
+    {
+        if (function_exists('Laminas\HttpHandlerRunner\Emitter\headers_sent')) {
+            // phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly.ReferenceViaFullyQualifiedName
+            \Laminas\HttpHandlerRunner\Emitter\header($headerName, $replace, $statusCode);
+            return;
+        }
+
+        header($headerName, $replace, $statusCode);
     }
 }

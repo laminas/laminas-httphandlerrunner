@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-httphandlerrunner for the canonical source repository
- * @copyright https://github.com/laminas/laminas-httphandlerrunner/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-httphandlerrunner/blob/master/LICENSE.md New BSD License
- */
-
 declare(strict_types=1);
 
 namespace Laminas\HttpHandlerRunner;
@@ -28,9 +22,7 @@ use Throwable;
  */
 final class RequestHandlerRunner implements RequestHandlerRunnerInterface
 {
-    /**
-     * @var Emitter\EmitterInterface
-     */
+    /** @var Emitter\EmitterInterface */
     private $emitter;
 
     /**
@@ -73,11 +65,11 @@ final class RequestHandlerRunner implements RequestHandlerRunnerInterface
         $this->handler = $handler;
         $this->emitter = $emitter;
 
-        $this->serverRequestFactory = $serverRequestFactory;
+        $this->serverRequestFactory                = $serverRequestFactory;
         $this->serverRequestErrorResponseGenerator = $serverRequestErrorResponseGenerator;
     }
 
-    public function run() : void
+    public function run(): void
     {
         try {
             $request = ($this->serverRequestFactory)();
@@ -92,7 +84,7 @@ final class RequestHandlerRunner implements RequestHandlerRunnerInterface
         $this->emitter->emit($response);
     }
 
-    private function emitMarshalServerRequestException(Throwable $exception) : void
+    private function emitMarshalServerRequestException(Throwable $exception): void
     {
         $response = ($this->serverRequestErrorResponseGenerator)($exception);
         $this->emitter->emit($response);

@@ -1,7 +1,8 @@
 <?php
 
-namespace Laminas\HttpHandlerRunner;
+declare(strict_types=1);
 
+namespace Laminas\HttpHandlerRunner;
 
 /**
  * "Run" a request handler.

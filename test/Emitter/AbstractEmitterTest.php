@@ -1,11 +1,5 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-httphandlerrunner for the canonical source repository
- * @copyright https://github.com/laminas/laminas-httphandlerrunner/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-httphandlerrunner/blob/master/LICENSE.md New BSD License
- */
-
 declare(strict_types=1);
 
 namespace LaminasTest\HttpHandlerRunner\Emitter;
@@ -22,9 +16,7 @@ use function ob_start;
 
 abstract class AbstractEmitterTest extends TestCase
 {
-    /**
-     * @var EmitterInterface
-     */
+    /** @var EmitterInterface */
     protected $emitter;
 
     public function setUp(): void

@@ -1,15 +1,12 @@
 <?php
 
-/**
- * @see       https://github.com/laminas/laminas-httphandlerrunner for the canonical source repository
- * @copyright https://github.com/laminas/laminas-httphandlerrunner/blob/master/COPYRIGHT.md
- * @license   https://github.com/laminas/laminas-httphandlerrunner/blob/master/LICENSE.md New BSD License
- */
+declare(strict_types=1);
 
 namespace LaminasTest\HttpHandlerRunner\TestAsset;
 
 /**
  * Store output artifacts
+ *
  * @psalm-type HeaderType = array{header:string,replace:bool,status_code:int|null}
  */
 class HeaderStack
@@ -52,10 +49,6 @@ class HeaderStack
 
     /**
      * Verify if there's a header line on the stack
-     *
-     * @param string $header
-     *
-     * @return bool
      */
     public static function has(string $header): bool
     {
