@@ -49,7 +49,7 @@
             "LaminasTest\\HttpHandlerRunner\\": "test/"
         },
         "files": [
-            "test/TestAsset/SapiResponse.php"
+            "test/TestAsset/HeadersSent.php"
         ]
     },
     "scripts": {
