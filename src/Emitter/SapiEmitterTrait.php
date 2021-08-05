@@ -115,7 +115,7 @@ trait SapiEmitterTrait
 
     private function header(string $headerName, bool $replace, int $statusCode): void
     {
-        if (function_exists('Laminas\HttpHandlerRunner\Emitter\headers_sent')) {
+        if (function_exists('Laminas\HttpHandlerRunner\Emitter\header')) {
             // phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly.ReferenceViaFullyQualifiedName
             \Laminas\HttpHandlerRunner\Emitter\header($headerName, $replace, $statusCode);
             return;
