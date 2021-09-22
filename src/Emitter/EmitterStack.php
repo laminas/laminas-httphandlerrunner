@@ -6,6 +6,7 @@ namespace Laminas\HttpHandlerRunner\Emitter;
 
 use Laminas\HttpHandlerRunner\Exception;
 use Psr\Http\Message\ResponseInterface;
+use ReturnTypeWillChange;
 use SplStack;
 
 /**
@@ -49,6 +50,7 @@ class EmitterStack extends SplStack implements EmitterInterface
      * @return void
      * @throws Exception\InvalidEmitterException If not an EmitterInterface instance.
      */
+    #[ReturnTypeWillChange]
     public function offsetSet($index, $emitter)
     {
         /** @psalm-suppress RedundantConditionGivenDocblockType */
@@ -63,6 +65,7 @@ class EmitterStack extends SplStack implements EmitterInterface
      * @return void
      * @throws Exception\InvalidEmitterException If not an EmitterInterface instance.
      */
+    #[ReturnTypeWillChange]
     public function push($emitter)
     {
         /** @psalm-suppress RedundantConditionGivenDocblockType */
@@ -77,6 +80,7 @@ class EmitterStack extends SplStack implements EmitterInterface
      * @return void
      * @throws Exception\InvalidEmitterException If not an EmitterInterface instance.
      */
+    #[ReturnTypeWillChange]
     public function unshift($emitter)
     {
         /** @psalm-suppress RedundantConditionGivenDocblockType */
