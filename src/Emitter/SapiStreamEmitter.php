@@ -21,9 +21,13 @@ class SapiStreamEmitter implements EmitterInterface
     /** @var int Maximum output buffering size for each iteration. */
     private $maxBufferLength;
 
-    public function __construct(int $maxBufferLength = 8192)
+    /** @var bool Emit the full response body regardless of the Content-Range header. */
+    private $ignoreContentRange;
+
+    public function __construct(int $maxBufferLength = 8192, bool $ignoreContentRange = false)
     {
-        $this->maxBufferLength = $maxBufferLength;
+        $this->maxBufferLength    = $maxBufferLength;
+        $this->ignoreContentRange = $ignoreContentRange;
     }
 
     /**
@@ -40,7 +44,7 @@ class SapiStreamEmitter implements EmitterInterface
 
         flush();
 
-        $range = $this->parseContentRange($response->getHeaderLine('Content-Range'));
+        $range = $this->ignoreContentRange ? null : $this->parseContentRange($response->getHeaderLine('Content-Range'));
 
         if (null === $range || 'bytes' !== $range[0]) {
             $this->emitBody($response);

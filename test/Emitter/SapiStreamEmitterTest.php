@@ -35,10 +35,14 @@ use function substr;
  */
 class SapiStreamEmitterTest extends AbstractEmitterTest
 {
+    /** @var SapiStreamEmitter */
+    private $emitterIgnoreContentRange;
+
     public function setUp(): void
     {
         HeaderStack::reset();
-        $this->emitter = new SapiStreamEmitter();
+        $this->emitter                   = new SapiStreamEmitter();
+        $this->emitterIgnoreContentRange = new SapiStreamEmitter(8192, true);
     }
 
     public function testEmitCallbackStreamResponse(): void
@@ -594,6 +598,18 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
     }
 
     /**
+     * @psalm-return array<array-key, array{0: string, 1: string, 2: string}>
+     */
+    public function ignoreContentRangeProvider(): array
+    {
+        return [
+            ['bytes 0-2/*', 'Hel', 'Hel'],
+            ['bytes 3-6/*', 'lo w', 'lo w'],
+            ['items 0-0/1', 'Hello world', 'Hello world'],
+        ];
+    }
+
+    /**
      * @dataProvider contentRangeProvider
      */
     public function testContentRange(string $header, string $body, string $expected): void
@@ -605,6 +621,21 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
 
         ob_start();
         $this->emitter->emit($response);
+        self::assertSame($expected, ob_get_clean());
+    }
+
+    /**
+     * @dataProvider ignoreContentRangeProvider
+     */
+    public function testIgnoreContentRange(string $header, string $body, string $expected): void
+    {
+        $response = (new Response())
+            ->withHeader('Content-Range', $header);
+
+        $response->getBody()->write($body);
+
+        ob_start();
+        $this->emitterIgnoreContentRange->emit($response);
         self::assertSame($expected, ob_get_clean());
     }
 
