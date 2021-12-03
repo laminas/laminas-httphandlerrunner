@@ -21,6 +21,9 @@
     "config": {
         "sort-packages": true
     },
+    "conflict": {
+        "zendframework/zend-httphandlerrunner": "*"
+    },
     "extra": {
         "laminas": {
             "config-provider": "Laminas\\HttpHandlerRunner\\ConfigProvider"

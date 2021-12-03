@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "66b65e78238b8d7e4f2480032eb73098",
+    "content-hash": "4cae0d92827923b798ed6301820553bd",
     "packages": [
         {
             "name": "laminas/laminas-diactoros",
@@ -4380,6 +4380,7 @@
                 "issues": "https://github.com/webmozart/path-util/issues",
                 "source": "https://github.com/webmozart/path-util/tree/2.3.0"
             },
+            "abandoned": "symfony/filesystem",
             "time": "2015-12-17T08:42:14+00:00"
         }
     ],
