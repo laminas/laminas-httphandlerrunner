@@ -608,6 +608,33 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
         self::assertSame($expected, ob_get_clean());
     }
 
+    /**
+     * @psalm-return array<array-key, array{0: string, 1: string, 2: string}>
+     */
+    public function ignoreContentRangeProvider(): array
+    {
+        return [
+            ['bytes 0-2/*', 'Hel', 'Hel'],
+            ['bytes 3-6/*', 'lo w', 'lo w'],
+            ['items 0-0/1', 'Hello world', 'Hello world'],
+        ];
+    }
+
+    /**
+     * @dataProvider ignoreContentRangeProvider
+     */
+    public function testIgnoreContentRange(string $header, string $body, string $expected): void
+    {
+        $response = (new Response())
+            ->withHeader('Content-Range', $header);
+
+        $response->getBody()->write($body);
+
+        ob_start();
+        $this->emitter->emit($response);
+        self::assertSame($expected, ob_get_clean());
+    }
+
     public function testContentRangeUnseekableBody(): void
     {
         $body     = new CallbackStream(function () {
