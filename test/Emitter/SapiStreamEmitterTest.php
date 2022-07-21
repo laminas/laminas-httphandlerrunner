@@ -420,7 +420,7 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
             $peakMemoryUsage = (int) max($peakMemoryUsage, memory_get_usage());
         };
 
-        $contentsCallback      = function (int $position, ?int $length = null) use (&$sizeBytes): string {
+        $contentsCallback = function (int $position, ?int $length = null) use (&$sizeBytes): string {
             self::assertIsInt($sizeBytes);
             if (! $length) {
                 $length = $sizeBytes - $position;
