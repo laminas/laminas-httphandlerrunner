@@ -86,7 +86,7 @@ class SapiStreamEmitter implements EmitterInterface
         $length = $last - $first + 1;
 
         if ($body->isSeekable()) {
-            $body->seek($first);
+            $body->seek($body->getSize() === $length ? 0 : $first);
 
             $first = 0;
         }
