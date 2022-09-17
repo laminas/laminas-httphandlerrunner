@@ -13,8 +13,7 @@ use SplStack;
 
 class EmitterStackTest extends TestCase
 {
-    /** @var EmitterStack */
-    private $emitter;
+    private EmitterStack $emitter;
 
     public function setUp(): void
     {

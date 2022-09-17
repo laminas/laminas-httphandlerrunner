@@ -15,7 +15,7 @@ class HeaderStack
      * @var string[][]
      * @psalm-var list<HeaderType>
      */
-    private static $data = [];
+    private static array $data = [];
 
     /**
      * Reset state

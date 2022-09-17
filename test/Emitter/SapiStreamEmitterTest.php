@@ -43,9 +43,7 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
 
     public function testEmitCallbackStreamResponse(): void
     {
-        $stream   = new CallbackStream(function () {
-            return 'it works';
-        });
+        $stream   = new CallbackStream(static fn(): string => 'it works');
         $response = (new Response())
             ->withStatus(200)
             ->withBody($stream);
@@ -124,7 +122,7 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
             $contents,
             strlen($contents),
             $startPosition,
-            function (int $bufferLength) use (&$peakBufferLength): void {
+            static function (int $bufferLength) use (&$peakBufferLength): void {
                 self::assertIsInt($peakBufferLength);
                 if ($bufferLength > $peakBufferLength) {
                     $peakBufferLength = $bufferLength;
@@ -420,7 +418,7 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
             $peakMemoryUsage = (int) max($peakMemoryUsage, memory_get_usage());
         };
 
-        $contentsCallback = function (int $position, ?int $length = null) use (&$sizeBytes): string {
+        $contentsCallback = static function (int $position, ?int $length = null) use (&$sizeBytes): string {
             self::assertIsInt($sizeBytes);
             if (! $length) {
                 $length = $sizeBytes - $position;
@@ -429,7 +427,7 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
             return str_repeat('0', $length);
         };
 
-        $trackPeakBufferLength = function (int $bufferLength) use (&$peakBufferLength): void {
+        $trackPeakBufferLength = static function (int $bufferLength) use (&$peakBufferLength): void {
             if ($bufferLength > $peakBufferLength) {
                 $peakBufferLength = $bufferLength;
             }
@@ -476,7 +474,7 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
         }
 
         ob_start(
-            function () use (&$closureTrackMemoryUsage) {
+            static function () use (&$closureTrackMemoryUsage): string {
                 self::assertIsCallable($closureTrackMemoryUsage);
                 $closureTrackMemoryUsage();
                 return '';
@@ -610,9 +608,7 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
 
     public function testContentRangeUnseekableBody(): void
     {
-        $body     = new CallbackStream(function () {
-            return 'Hello world';
-        });
+        $body     = new CallbackStream(static fn(): string => 'Hello world');
         $response = (new Response())
             ->withBody($body)
             ->withHeader('Content-Range', 'bytes 3-6/*');
