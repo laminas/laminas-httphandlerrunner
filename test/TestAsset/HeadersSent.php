@@ -9,8 +9,7 @@ use LaminasTest\HttpHandlerRunner\TestAsset\HeaderStack;
 
 final class HeadersSent
 {
-    /** @var bool */
-    private static $headerSent = false;
+    private static bool $headerSent = false;
     /** @var null|string */
     public static $filename;
     /** @var null|int */

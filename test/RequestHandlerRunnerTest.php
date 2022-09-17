@@ -19,13 +19,18 @@ class RequestHandlerRunnerTest extends TestCase
     public function testUsesErrorResponseGeneratorToGenerateResponseWhenRequestFactoryRaisesException(): void
     {
         $exception            = new Exception();
-        $serverRequestFactory = function () use ($exception): ServerRequestInterface {
+        $serverRequestFactory = static function () use ($exception): ServerRequestInterface {
             throw $exception;
         };
 
         $response = $this->createMock(ResponseInterface::class);
 
-        $errorResponseGenerator = function (Throwable $passedThrowable) use ($exception, $response): ResponseInterface {
+        $errorResponseGenerator = static function (
+            Throwable $passedThrowable
+        ) use (
+            $exception,
+            $response
+        ): ResponseInterface {
             Assert::assertSame($exception, $passedThrowable);
             return $response;
         };
@@ -50,11 +55,9 @@ class RequestHandlerRunnerTest extends TestCase
     {
         $request = $this->createMock(ServerRequestInterface::class);
 
-        $serverRequestFactory = function () use ($request): ServerRequestInterface {
-            return $request;
-        };
+        $serverRequestFactory = static fn(): ServerRequestInterface => $request;
 
-        $errorResponseGenerator = function (): ResponseInterface {
+        $errorResponseGenerator = static function (): ResponseInterface {
             self::fail('Should never hit error response generator');
         };
 

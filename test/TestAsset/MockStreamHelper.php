@@ -15,14 +15,11 @@ class MockStreamHelper
     /** @var string|callable(int,?int=null):string */
     private $contents;
 
-    /** @var int */
-    private $position;
+    private int $position;
 
-    /** @var int */
-    private $size;
+    private int $size;
 
-    /** @var int */
-    private $startPosition;
+    private int $startPosition;
 
     /** @var null|callable */
     private $trackPeakBufferLength;
