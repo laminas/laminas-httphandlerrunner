@@ -2,27 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://docs.laminas.dev/laminas-httphandlerrunner/</loc>
-         <lastmod>2022-09-17</lastmod>
+         <lastmod>2022-10-10</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-httphandlerrunner/emitters/</loc>
-         <lastmod>2022-09-17</lastmod>
+         <lastmod>2022-10-10</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-httphandlerrunner/intro/</loc>
-         <lastmod>2022-09-17</lastmod>
+         <lastmod>2022-10-10</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-httphandlerrunner/runner/</loc>
-         <lastmod>2022-09-17</lastmod>
+         <lastmod>2022-10-10</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://docs.laminas.dev/laminas-httphandlerrunner/usage/</loc>
-         <lastmod>2022-09-17</lastmod>
+         <lastmod>2022-10-10</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
