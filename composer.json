@@ -43,7 +43,7 @@
         "laminas/laminas-diactoros": "^2.18",
         "phpunit/phpunit": "^9.5.26",
         "psalm/plugin-phpunit": "^0.18.0",
-        "vimeo/psalm": "^4.29.0"
+        "vimeo/psalm": "^5.0.0"
     },
     "autoload": {
         "psr-4": {
