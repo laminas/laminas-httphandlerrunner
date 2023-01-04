@@ -19,7 +19,7 @@ class SapiStreamEmitter implements EmitterInterface
     use SapiEmitterTrait;
 
     public function __construct(
-        /** @var int Maximum output buffering size for each iteration. */
+        /** @param int Maximum output buffering size for each iteration. */
         private int $maxBufferLength = 8192
     ) {
     }
