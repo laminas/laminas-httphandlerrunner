@@ -49,9 +49,8 @@ class EmitterStackTest extends TestCase
 
     /**
      * @dataProvider nonEmitterValues
-     * @param mixed $value
      */
-    public function testCannotPushNonEmitterToStack($value): void
+    public function testCannotPushNonEmitterToStack(mixed $value): void
     {
         $this->expectException(Exception\InvalidEmitterException::class);
         /** @psalm-suppress MixedArgument */
@@ -60,9 +59,8 @@ class EmitterStackTest extends TestCase
 
     /**
      * @dataProvider nonEmitterValues
-     * @param mixed $value
      */
-    public function testCannotUnshiftNonEmitterToStack($value): void
+    public function testCannotUnshiftNonEmitterToStack(mixed $value): void
     {
         $this->expectException(Exception\InvalidEmitterException::class);
         /** @psalm-suppress MixedArgument */
@@ -71,9 +69,8 @@ class EmitterStackTest extends TestCase
 
     /**
      * @dataProvider nonEmitterValues
-     * @param mixed $value
      */
-    public function testCannotSetNonEmitterToSpecificIndex($value): void
+    public function testCannotSetNonEmitterToSpecificIndex(mixed $value): void
     {
         $this->expectException(Exception\InvalidEmitterException::class);
         /** @psalm-suppress MixedArgument */

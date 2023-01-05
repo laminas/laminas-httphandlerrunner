@@ -15,10 +15,6 @@ class MockStreamHelper
     /** @var string|callable(int,?int=null):string */
     private $contents;
 
-    private int $position;
-
-    private int $size;
-
     private int $startPosition;
 
     /** @var null|callable */
@@ -30,14 +26,12 @@ class MockStreamHelper
      */
     public function __construct(
         $contents,
-        int $size,
-        int $startPosition,
+        private int $size,
+        private int $position,
         ?callable $trackPeakBufferLength = null
     ) {
         $this->contents              = $contents;
-        $this->size                  = $size;
-        $this->position              = $startPosition;
-        $this->startPosition         = $startPosition;
+        $this->startPosition         = $position;
         $this->trackPeakBufferLength = $trackPeakBufferLength;
     }
 

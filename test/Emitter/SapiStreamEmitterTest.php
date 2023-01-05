@@ -555,7 +555,7 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
      * @dataProvider emitJsonResponseProvider
      * @param mixed $contents Contents stored in stream
      */
-    public function testEmitJsonResponse($contents): void
+    public function testEmitJsonResponse(mixed $contents): void
     {
         $response = (new JsonResponse($contents))
             ->withStatus(200);
