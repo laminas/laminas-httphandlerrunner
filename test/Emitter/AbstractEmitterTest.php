@@ -18,10 +18,12 @@ use function ob_end_clean;
 use function ob_start;
 use function sprintf;
 
+/**
+ * @template T of EmitterInterface
+ */
 abstract class AbstractEmitterTest extends TestCase
 {
-    /** @var EmitterInterface */
-    protected $emitter;
+    protected EmitterInterface $emitter;
 
     public function setUp(): void
     {

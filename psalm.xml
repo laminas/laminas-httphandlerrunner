@@ -4,6 +4,9 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="https://getpsalm.org/schema/config"
         xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+        findUnusedPsalmSuppress="true"
+        findUnusedBaselineEntry="true"
+        findUnusedCode="true"
 >
     <projectFiles>
         <directory name="src"/>
@@ -16,4 +19,17 @@
     <plugins>
         <pluginClass class="Psalm\PhpUnitPlugin\Plugin"/>
     </plugins>
+
+    <issueHandlers>
+        <PossiblyUnusedMethod>
+            <errorLevel type="suppress">
+                <file name="test/TestAsset/MockStreamHelper.php" />
+            </errorLevel>
+        </PossiblyUnusedMethod>
+        <PossiblyUnusedParam>
+            <errorLevel type="suppress">
+                <file name="test/TestAsset/MockStreamHelper.php" />
+            </errorLevel>
+        </PossiblyUnusedParam>
+    </issueHandlers>
 </psalm>

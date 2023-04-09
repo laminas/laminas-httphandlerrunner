@@ -32,6 +32,7 @@ use function substr;
 
 /**
  * @psalm-import-type ParsedRangeType from SapiStreamEmitter
+ * @extends AbstractEmitterTest<SapiStreamEmitter>
  */
 class SapiStreamEmitterTest extends AbstractEmitterTest
 {
@@ -43,12 +44,14 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
 
     public function testEmitCallbackStreamResponse(): void
     {
+        $emitter  = new SapiStreamEmitter();
         $stream   = new CallbackStream(static fn(): string => 'it works');
         $response = (new Response())
             ->withStatus(200)
             ->withBody($stream);
         ob_start();
-        $this->emitter->emit($response);
+        $result = $emitter->emit($response);
+        self::assertTrue($result);
         self::assertSame('it works', ob_get_clean());
     }
 
