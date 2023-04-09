@@ -10,10 +10,14 @@ use Laminas\Diactoros\Response\EmptyResponse;
 use Laminas\Diactoros\Response\HtmlResponse;
 use Laminas\Diactoros\Response\JsonResponse;
 use Laminas\Diactoros\Response\TextResponse;
+use Laminas\HttpHandlerRunner\Emitter\HeadersSent;
 use Laminas\HttpHandlerRunner\Emitter\SapiStreamEmitter;
+use Laminas\HttpHandlerRunner\Exception\EmitterException;
 use LaminasTest\HttpHandlerRunner\TestAsset\HeaderStack;
 use LaminasTest\HttpHandlerRunner\TestAsset\MockStreamHelper;
 use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
 use function gc_collect_cycles;
@@ -27,20 +31,107 @@ use function ob_end_clean;
 use function ob_end_flush;
 use function ob_get_clean;
 use function ob_start;
+use function sprintf;
 use function str_repeat;
 use function strlen;
 use function substr;
 
 /**
  * @psalm-import-type ParsedRangeType from SapiStreamEmitter
- * @extends AbstractEmitterTest<SapiStreamEmitter>
  */
-class SapiStreamEmitterTest extends AbstractEmitterTest
+class SapiStreamEmitterTest extends TestCase
 {
+    private SapiStreamEmitter $emitter;
+
     protected function setUp(): void
     {
         HeaderStack::reset();
+        HeadersSent::reset();
         $this->emitter = new SapiStreamEmitter();
+    }
+
+    protected function tearDown(): void
+    {
+        HeaderStack::reset();
+        HeadersSent::reset();
+    }
+
+    public function testEmitsResponseHeaders(): void
+    {
+        $response = (new Response())
+            ->withStatus(200)
+            ->withAddedHeader('Content-Type', 'text/plain');
+        $response->getBody()->write('Content!');
+
+        ob_start();
+        $this->emitter->emit($response);
+        ob_end_clean();
+
+        self::assertTrue(HeaderStack::has('HTTP/1.1 200 OK'));
+        self::assertTrue(HeaderStack::has('Content-Type: text/plain'));
+    }
+
+    public function testEmitsMessageBody(): void
+    {
+        $response = (new Response())
+            ->withStatus(200)
+            ->withAddedHeader('Content-Type', 'text/plain');
+        $response->getBody()->write('Content!');
+
+        $this->expectOutputString('Content!');
+        $this->emitter->emit($response);
+    }
+
+    public function testMultipleSetCookieHeadersAreNotReplaced(): void
+    {
+        $response = (new Response())
+            ->withStatus(200)
+            ->withAddedHeader('Set-Cookie', 'foo=bar')
+            ->withAddedHeader('Set-Cookie', 'bar=baz');
+
+        $this->emitter->emit($response);
+
+        $expectedStack = [
+            ['header' => 'Set-Cookie: foo=bar', 'replace' => false, 'status_code' => 200],
+            ['header' => 'Set-Cookie: bar=baz', 'replace' => false, 'status_code' => 200],
+            ['header' => 'HTTP/1.1 200 OK', 'replace' => true, 'status_code' => 200],
+        ];
+
+        self::assertSame($expectedStack, HeaderStack::stack());
+    }
+
+    public function testDoesNotLetResponseCodeBeOverriddenByPHP(): void
+    {
+        $response = (new Response())
+            ->withStatus(202)
+            ->withAddedHeader('Location', 'http://api.my-service.com/12345678')
+            ->withAddedHeader('Content-Type', 'text/plain');
+
+        $this->emitter->emit($response);
+
+        $expectedStack = [
+            ['header' => 'Location: http://api.my-service.com/12345678', 'replace' => true, 'status_code' => 202],
+            ['header' => 'Content-Type: text/plain', 'replace' => true, 'status_code' => 202],
+            ['header' => 'HTTP/1.1 202 Accepted', 'replace' => true, 'status_code' => 202],
+        ];
+
+        self::assertSame($expectedStack, HeaderStack::stack());
+    }
+
+    public function testWillThrowEmitterExceptionWhenHeadersAreAlreadySent(): void
+    {
+        $sentInLine = __LINE__;
+        HeadersSent::markSent(__FILE__, $sentInLine);
+
+        $this->expectException(EmitterException::class);
+        $this->expectExceptionMessage(
+            sprintf(
+                'Unable to emit response; headers already sent in %s:%d',
+                __FILE__,
+                $sentInLine
+            )
+        );
+        $this->emitter->emit($this->createMock(ResponseInterface::class));
     }
 
     public function testEmitCallbackStreamResponse(): void
