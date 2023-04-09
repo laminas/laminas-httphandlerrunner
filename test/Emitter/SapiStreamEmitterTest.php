@@ -13,6 +13,7 @@ use Laminas\Diactoros\Response\TextResponse;
 use Laminas\HttpHandlerRunner\Emitter\SapiStreamEmitter;
 use LaminasTest\HttpHandlerRunner\TestAsset\HeaderStack;
 use LaminasTest\HttpHandlerRunner\TestAsset\MockStreamHelper;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Psr\Http\Message\StreamInterface;
 
 use function gc_collect_cycles;
@@ -36,7 +37,7 @@ use function substr;
  */
 class SapiStreamEmitterTest extends AbstractEmitterTest
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         HeaderStack::reset();
         $this->emitter = new SapiStreamEmitter();
@@ -79,7 +80,7 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
     /**
      * @psalm-return array<array-key, array{0: bool, 1: bool, 2: string, 3: int}>
      */
-    public function emitStreamResponseProvider(): array
+    public static function emitStreamResponseProvider(): array
     {
         return [
             [true,   true,    '01234567890987654321',   10],
@@ -110,12 +111,12 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
     }
 
     /**
-     * @dataProvider emitStreamResponseProvider
      * @param bool    $seekable        Indicates if stream is seekable
      * @param bool    $readable        Indicates if stream is readable
      * @param string  $contents        Contents stored in stream
      * @param int     $maxBufferLength Maximum buffer length used in the emitter call.
      */
+    #[DataProvider('emitStreamResponseProvider')]
     public function testEmitStreamResponse(bool $seekable, bool $readable, string $contents, int $maxBufferLength): void
     {
         $startPosition    = 0;
@@ -191,7 +192,7 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
      *     4: int
      * }>
      */
-    public function emitRangeStreamResponseProvider(): array
+    public static function emitRangeStreamResponseProvider(): array
     {
         return [
             // seekable, readable,                   range,                 contents, max buffer length
@@ -247,7 +248,6 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
     }
 
     /**
-     * @dataProvider emitRangeStreamResponseProvider
      * @param bool   $seekable        Indicates if stream is seekable
      * @param bool   $readable        Indicates if stream is readable
      * @param array  $range           Emitted range of data [$unit, $first, $last, $length]
@@ -255,6 +255,7 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
      * @param int    $maxBufferLength Maximum buffer length used in the emitter call.
      * @psalm-param ParsedRangeType $range
      */
+    #[DataProvider('emitRangeStreamResponseProvider')]
     public function testEmitRangeStreamResponse(
         bool $seekable,
         bool $readable,
@@ -348,7 +349,7 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
      *     5: int
      * }>
      */
-    public function emitMemoryUsageProvider(): array
+    public static function emitMemoryUsageProvider(): array
     {
         return [
             // seekable, readable,  size,  max,      range, max-length
@@ -380,7 +381,6 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
     }
 
     /**
-     * @dataProvider emitMemoryUsageProvider
      * @param bool       $seekable         Indicates if stream is seekable
      * @param bool       $readable         Indicates if stream is readable
      * @param int        $sizeBlocks       Number the blocks of stream data.
@@ -390,6 +390,7 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
      * @param int        $maxBufferLength  Maximum buffer length used in the emitter call.
      * @psalm-param array{0:int,1:int}|null $rangeBlocks
      */
+    #[DataProvider('emitMemoryUsageProvider')]
     public function testEmitMemoryUsage(
         bool $seekable,
         bool $readable,
@@ -539,7 +540,7 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
     /**
      * @psalm-return array<array-key, array>
      */
-    public function emitJsonResponseProvider(): array
+    public static function emitJsonResponseProvider(): array
     {
         // @codingStandardsIgnoreStart
         return [
@@ -555,9 +556,9 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
     }
 
     /**
-     * @dataProvider emitJsonResponseProvider
      * @param mixed $contents Contents stored in stream
      */
+    #[DataProvider('emitJsonResponseProvider')]
     public function testEmitJsonResponse(mixed $contents): void
     {
         $response = (new JsonResponse($contents))
@@ -585,7 +586,7 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
     /**
      * @psalm-return array<array-key, array{0: string, 1: string, 2: string}>
      */
-    public function contentRangeProvider(): array
+    public static function contentRangeProvider(): array
     {
         return [
             ['bytes 0-2/*', 'Hello world', 'Hel'],
@@ -594,9 +595,7 @@ class SapiStreamEmitterTest extends AbstractEmitterTest
         ];
     }
 
-    /**
-     * @dataProvider contentRangeProvider
-     */
+    #[DataProvider('contentRangeProvider')]
     public function testContentRange(string $header, string $body, string $expected): void
     {
         $response = (new Response())

@@ -23,7 +23,7 @@
     <issueHandlers>
         <PossiblyUnusedMethod>
             <errorLevel type="suppress">
-                <file name="test/TestAsset/MockStreamHelper.php" />
+                <directory name="test" />
             </errorLevel>
         </PossiblyUnusedMethod>
         <PossiblyUnusedParam>

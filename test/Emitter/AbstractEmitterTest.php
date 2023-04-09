@@ -25,14 +25,14 @@ abstract class AbstractEmitterTest extends TestCase
 {
     protected EmitterInterface $emitter;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         HeaderStack::reset();
         HeadersSent::reset();
         $this->emitter = new SapiEmitter();
     }
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         HeaderStack::reset();
         HeadersSent::reset();
