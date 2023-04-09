@@ -6,7 +6,9 @@ namespace LaminasTest\HttpHandlerRunner\Emitter;
 
 use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
 use Laminas\HttpHandlerRunner\Emitter\EmitterStack;
+use Laminas\HttpHandlerRunner\Emitter\SapiEmitter;
 use Laminas\HttpHandlerRunner\Exception;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use SplStack;
@@ -31,7 +33,7 @@ class EmitterStackTest extends TestCase
     }
 
     /** @return iterable<string, mixed[]> */
-    public function nonEmitterValues(): iterable
+    public static function nonEmitterValues(): iterable
     {
         return [
             'null'       => [null],
@@ -42,14 +44,12 @@ class EmitterStackTest extends TestCase
             'zero-float' => [0.0],
             'float'      => [1.1],
             'string'     => ['emitter'],
-            'array'      => [[$this->createMock(EmitterInterface::class)]],
+            'array'      => [[new SapiEmitter()]],
             'object'     => [(object) []],
         ];
     }
 
-    /**
-     * @dataProvider nonEmitterValues
-     */
+    #[DataProvider('nonEmitterValues')]
     public function testCannotPushNonEmitterToStack(mixed $value): void
     {
         $this->expectException(Exception\InvalidEmitterException::class);
@@ -57,9 +57,7 @@ class EmitterStackTest extends TestCase
         $this->emitter->push($value);
     }
 
-    /**
-     * @dataProvider nonEmitterValues
-     */
+    #[DataProvider('nonEmitterValues')]
     public function testCannotUnshiftNonEmitterToStack(mixed $value): void
     {
         $this->expectException(Exception\InvalidEmitterException::class);
@@ -67,9 +65,7 @@ class EmitterStackTest extends TestCase
         $this->emitter->unshift($value);
     }
 
-    /**
-     * @dataProvider nonEmitterValues
-     */
+    #[DataProvider('nonEmitterValues')]
     public function testCannotSetNonEmitterToSpecificIndex(mixed $value): void
     {
         $this->expectException(Exception\InvalidEmitterException::class);

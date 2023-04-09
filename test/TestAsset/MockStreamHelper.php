@@ -10,12 +10,13 @@ use function substr;
 
 use const SEEK_SET;
 
+/**
+ * @psalm-suppress PossiblyUnusedMethod,PossiblyUnusedParam,PossiblyUnusedReturnValue
+ */
 class MockStreamHelper
 {
     /** @var string|callable(int,?int=null):string */
     private $contents;
-
-    private int $startPosition;
 
     /** @var null|callable */
     private $trackPeakBufferLength;
@@ -31,7 +32,6 @@ class MockStreamHelper
         ?callable $trackPeakBufferLength = null
     ) {
         $this->contents              = $contents;
-        $this->startPosition         = $position;
         $this->trackPeakBufferLength = $trackPeakBufferLength;
     }
 
