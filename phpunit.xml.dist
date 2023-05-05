@@ -12,11 +12,11 @@
     displayDetailsOnTestsThatTriggerNotices="true"
     displayDetailsOnTestsThatTriggerWarnings="true"
 >
-    <coverage>
+    <source>
         <include>
             <directory suffix=".php">./src</directory>
         </include>
-    </coverage>
+    </source>
     <testsuites>
         <testsuite name="laminas-httphandlerrunner">
             <directory>./test</directory>
