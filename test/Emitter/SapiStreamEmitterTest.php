@@ -154,7 +154,6 @@ class SapiStreamEmitterTest extends TestCase
         $stream->method('isSeekable')->willReturn(false);
         $stream->method('isReadable')->willReturn(false);
         $stream->method('eof')->willReturn(true);
-        $stream->method('rewind')->willReturn(true);
         $stream->method('getSize')->willReturn(null);
         $response = (new Response())
             ->withStatus(200)
