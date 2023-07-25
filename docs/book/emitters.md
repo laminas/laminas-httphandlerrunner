@@ -56,7 +56,7 @@ This emitter can _always_ handle a response, and thus _always_ returns true.
 `Laminas\HttpHandlerRunner\Emitter\SapiStreamEmitter` behaves similarly to the
 `SapiEmitter`, with two key differences:
 
-- It allows emitting a a _content range_, if a `Content-Range` header is
+- It allows emitting a _content range_, if a `Content-Range` header is
   specified in the response.
 - It will iteratively emit a range of bytes from the response, based on the
   buffer length provided to the emitter during construction. This is
