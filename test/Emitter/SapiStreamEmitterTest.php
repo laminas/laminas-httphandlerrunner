@@ -232,8 +232,8 @@ class SapiStreamEmitterTest extends TestCase
             $stream
                 ->expects($this->atLeastOnce())
                 ->method('rewind')
-                ->will($this->returnCallback([$streamHelper, 'handleRewind']));
-            $stream->method('seek')->will($this->returnCallback([$streamHelper, 'handleSeek']));
+                ->willReturnCallback([$streamHelper, 'handleRewind']);
+            $stream->method('seek')->willReturnCallback([$streamHelper, 'handleSeek']);
         }
 
         if (! $seekable) {
@@ -243,8 +243,8 @@ class SapiStreamEmitterTest extends TestCase
 
         if ($readable) {
             $stream->expects($this->never())->method('__toString');
-            $stream->method('eof')->will($this->returnCallback([$streamHelper, 'handleEof']));
-            $stream->method('read')->will($this->returnCallback([$streamHelper, 'handleRead']));
+            $stream->method('eof')->willReturnCallback([$streamHelper, 'handleEof']);
+            $stream->method('read')->willReturnCallback([$streamHelper, 'handleRead']);
         }
 
         if (! $readable) {
@@ -254,10 +254,10 @@ class SapiStreamEmitterTest extends TestCase
             $seekable
                 ? $stream
                     ->method('getContents')
-                    ->will($this->returnCallback([$streamHelper, 'handleGetContents']))
+                    ->willReturnCallback([$streamHelper, 'handleGetContents'])
                 : $stream->expects($this->never())->method('getContents');
 
-            $stream->method('__toString')->will($this->returnCallback([$streamHelper, 'handleToString']));
+            $stream->method('__toString')->willReturnCallback([$streamHelper, 'handleToString']);
         }
 
         $response = (new Response())
@@ -380,7 +380,7 @@ class SapiStreamEmitterTest extends TestCase
         $stream->method('isSeekable')->willReturn($seekable);
         $stream->method('isReadable')->willReturn($readable);
         $stream->method('getSize')->willReturn($size);
-        $stream->method('tell')->will($this->returnCallback([$streamHelper, 'handleTell']));
+        $stream->method('tell')->willReturnCallback([$streamHelper, 'handleTell']);
 
         $stream->expects($this->never())->method('rewind');
 
@@ -388,7 +388,7 @@ class SapiStreamEmitterTest extends TestCase
             $stream
                 ->expects($this->atLeastOnce())
                 ->method('seek')
-                ->will($this->returnCallback([$streamHelper, 'handleSeek']));
+                ->willReturnCallback([$streamHelper, 'handleSeek']);
         } else {
             $stream->expects($this->never())->method('seek');
         }
@@ -400,11 +400,11 @@ class SapiStreamEmitterTest extends TestCase
                 ->expects($this->atLeastOnce())
                 ->method('read')
                 ->with($this->isType('int'))
-                ->will($this->returnCallback([$streamHelper, 'handleRead']));
+                ->willReturnCallback([$streamHelper, 'handleRead']);
             $stream
                 ->expects($this->atLeastOnce())
                 ->method('eof')
-                ->will($this->returnCallback([$streamHelper, 'handleEof']));
+                ->willReturnCallback([$streamHelper, 'handleEof']);
             $stream->expects($this->never())->method('getContents');
         } else {
             $stream->expects($this->never())->method('read');
@@ -412,7 +412,7 @@ class SapiStreamEmitterTest extends TestCase
             $stream
                 ->expects($this->atLeastOnce())
                 ->method('getContents')
-                ->will($this->returnCallback([$streamHelper, 'handleGetContents']));
+                ->willReturnCallback([$streamHelper, 'handleGetContents']);
         }
 
         $response = (new Response())
@@ -539,24 +539,24 @@ class SapiStreamEmitterTest extends TestCase
         $stream = $this->createMock(StreamInterface::class);
         $stream->method('isSeekable')->willReturn($seekable);
         $stream->method('isReadable')->willReturn($readable);
-        $stream->method('eof')->will($this->returnCallback([$streamHelper, 'handleEof']));
+        $stream->method('eof')->willReturnCallback([$streamHelper, 'handleEof']);
 
         if ($seekable) {
             $stream
                 ->method('seek')
-                ->will($this->returnCallback([$streamHelper, 'handleSeek']));
+                ->willReturnCallback([$streamHelper, 'handleSeek']);
         }
 
         if ($readable) {
             $stream
                 ->method('read')
-                ->will($this->returnCallback([$streamHelper, 'handleRead']));
+                ->willReturnCallback([$streamHelper, 'handleRead']);
         }
 
         if (! $readable) {
             $stream
                 ->method('getContents')
-                ->will($this->returnCallback([$streamHelper, 'handleGetContents']));
+                ->willReturnCallback([$streamHelper, 'handleGetContents']);
         }
 
         $response = (new Response())
