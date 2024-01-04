@@ -217,7 +217,6 @@ class SapiStreamEmitterTest extends TestCase
             strlen($contents),
             $startPosition,
             static function (int $bufferLength) use (&$peakBufferLength): void {
-                self::assertIsInt($peakBufferLength);
                 if ($bufferLength > $peakBufferLength) {
                     $peakBufferLength = $bufferLength;
                 }
@@ -363,7 +362,6 @@ class SapiStreamEmitterTest extends TestCase
         $peakBufferLength = 0;
 
         $trackPeakBufferLength = static function (int $bufferLength) use (&$peakBufferLength): void {
-            self::assertIsInt($peakBufferLength);
             if ($bufferLength > $peakBufferLength) {
                 $peakBufferLength = $bufferLength;
             }
@@ -509,7 +507,7 @@ class SapiStreamEmitterTest extends TestCase
         }
 
         $closureTrackMemoryUsage = static function () use (&$peakMemoryUsage): void {
-            $peakMemoryUsage = (int) max($peakMemoryUsage, memory_get_usage());
+            $peakMemoryUsage = max($peakMemoryUsage, memory_get_usage());
         };
 
         $contentsCallback = static function (int $position, ?int $length = null) use (&$sizeBytes): string {
@@ -569,7 +567,6 @@ class SapiStreamEmitterTest extends TestCase
 
         ob_start(
             static function () use (&$closureTrackMemoryUsage): string {
-                self::assertIsCallable($closureTrackMemoryUsage);
                 $closureTrackMemoryUsage();
                 return '';
             },
@@ -592,7 +589,6 @@ class SapiStreamEmitterTest extends TestCase
         $localMemoryUsage = memory_get_usage();
 
         self::assertLessThanOrEqual($maxBufferLength, $peakBufferLength);
-        self::assertIsInt($peakMemoryUsage);
         self::assertLessThanOrEqual($maxAllowedMemoryUsage, $peakMemoryUsage - $localMemoryUsage);
     }
 
