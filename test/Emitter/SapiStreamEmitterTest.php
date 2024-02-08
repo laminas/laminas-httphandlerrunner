@@ -512,7 +512,7 @@ class SapiStreamEmitterTest extends TestCase
 
         $contentsCallback = static function (int $position, ?int $length = null) use (&$sizeBytes): string {
             self::assertIsInt($sizeBytes);
-            if (! $length) {
+            if ($length === null) {
                 $length = $sizeBytes - $position;
             }
 
