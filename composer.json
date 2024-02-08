@@ -41,9 +41,9 @@
     "require-dev": {
         "laminas/laminas-coding-standard": "~2.5.0",
         "laminas/laminas-diactoros": "^3.3.0",
-        "phpunit/phpunit": "^10.5.5",
+        "phpunit/phpunit": "^10.5.10",
         "psalm/plugin-phpunit": "^0.18.4",
-        "vimeo/psalm": "^5.18"
+        "vimeo/psalm": "^5.21.1"
     },
     "autoload": {
         "psr-4": {
