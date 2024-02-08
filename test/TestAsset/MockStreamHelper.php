@@ -76,7 +76,7 @@ class MockStreamHelper
     /** @psalm-suppress PossiblyUnusedReturnValue */
     public function handleRead(int $length): string
     {
-        if ($this->trackPeakBufferLength) {
+        if ($this->trackPeakBufferLength !== null) {
             ($this->trackPeakBufferLength)($length);
         }
 
