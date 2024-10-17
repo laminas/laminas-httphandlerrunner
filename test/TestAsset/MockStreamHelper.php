@@ -17,7 +17,7 @@ use const SEEK_SET;
 class MockStreamHelper
 {
     /** @var string|callable(int,?int=null):string */
-    private $contents;
+    private $contents; // phpcs:ignore
 
     /** @var null|callable */
     private $trackPeakBufferLength;
