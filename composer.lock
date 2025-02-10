@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bc5313afe480ee3493a34134c9c94b9d",
+    "content-hash": "a0a1d2eedc222d2e2b18e38fea78115a",
     "packages": [
         {
             "name": "laminas/laminas-diactoros",
@@ -2951,24 +2951,24 @@
         },
         {
             "name": "psalm/plugin-phpunit",
-            "version": "0.19.1",
+            "version": "0.19.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/psalm/psalm-plugin-phpunit.git",
-                "reference": "bc31ef11ce007a181a09dde201f73ac8d0b3b107"
+                "reference": "7b7a5cde988f83ccdbdf3ebaecd88192e01c5eb1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/psalm/psalm-plugin-phpunit/zipball/bc31ef11ce007a181a09dde201f73ac8d0b3b107",
-                "reference": "bc31ef11ce007a181a09dde201f73ac8d0b3b107",
+                "url": "https://api.github.com/repos/psalm/psalm-plugin-phpunit/zipball/7b7a5cde988f83ccdbdf3ebaecd88192e01c5eb1",
+                "reference": "7b7a5cde988f83ccdbdf3ebaecd88192e01c5eb1",
                 "shasum": ""
             },
             "require": {
                 "composer/package-versions-deprecated": "^1.10",
                 "composer/semver": "^1.4 || ^2.0 || ^3.0",
                 "ext-simplexml": "*",
-                "php": ">=7.4",
-                "vimeo/psalm": "dev-master || ^5@beta || ^5.0 || ^6.0"
+                "php": ">=8.1",
+                "vimeo/psalm": "dev-master || ^6"
             },
             "conflict": {
                 "phpunit/phpunit": "<7.5"
@@ -3005,9 +3005,9 @@
             "description": "Psalm plugin for PHPUnit",
             "support": {
                 "issues": "https://github.com/psalm/psalm-plugin-phpunit/issues",
-                "source": "https://github.com/psalm/psalm-plugin-phpunit/tree/0.19.1"
+                "source": "https://github.com/psalm/psalm-plugin-phpunit/tree/0.19.2"
             },
-            "time": "2025-01-26T09:41:04+00:00"
+            "time": "2025-01-26T11:39:17+00:00"
         },
         {
             "name": "psr/container",
