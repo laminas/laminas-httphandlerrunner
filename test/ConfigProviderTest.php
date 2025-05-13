@@ -7,7 +7,7 @@ namespace LaminasTest\HttpHandlerRunner;
 use Laminas\HttpHandlerRunner\ConfigProvider;
 use PHPUnit\Framework\TestCase;
 
-class ConfigProviderTest extends TestCase
+final class ConfigProviderTest extends TestCase
 {
     private ConfigProvider $provider;
 

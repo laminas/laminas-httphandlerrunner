@@ -13,7 +13,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use SplStack;
 
-class EmitterStackTest extends TestCase
+final class EmitterStackTest extends TestCase
 {
     private EmitterStack $emitter;
 

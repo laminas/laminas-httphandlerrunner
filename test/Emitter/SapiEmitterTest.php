@@ -17,7 +17,7 @@ use function ob_end_clean;
 use function ob_start;
 use function sprintf;
 
-class SapiEmitterTest extends TestCase
+final class SapiEmitterTest extends TestCase
 {
     private SapiEmitter $emitter;
 
