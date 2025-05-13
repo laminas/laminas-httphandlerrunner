@@ -9,7 +9,7 @@ namespace LaminasTest\HttpHandlerRunner\TestAsset;
  *
  * @psalm-type HeaderType = array{header:string,replace:bool,status_code:int|null}
  */
-class HeaderStack
+final class HeaderStack
 {
     /**
      * @var string[][]

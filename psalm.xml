@@ -21,15 +21,11 @@
     </plugins>
 
     <issueHandlers>
-        <PossiblyUnusedMethod>
+        <MissingOverrideAttribute>
             <errorLevel type="suppress">
+                <directory name="src" />
                 <directory name="test" />
             </errorLevel>
-        </PossiblyUnusedMethod>
-        <PossiblyUnusedParam>
-            <errorLevel type="suppress">
-                <file name="test/TestAsset/MockStreamHelper.php" />
-            </errorLevel>
-        </PossiblyUnusedParam>
+        </MissingOverrideAttribute>
     </issueHandlers>
 </psalm>

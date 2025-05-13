@@ -39,7 +39,7 @@ use function substr;
 /**
  * @psalm-import-type ParsedRangeType from SapiStreamEmitter
  */
-class SapiStreamEmitterTest extends TestCase
+final class SapiStreamEmitterTest extends TestCase
 {
     private SapiStreamEmitter $emitter;
 

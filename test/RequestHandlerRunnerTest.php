@@ -14,7 +14,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Throwable;
 
-class RequestHandlerRunnerTest extends TestCase
+final class RequestHandlerRunnerTest extends TestCase
 {
     public function testUsesErrorResponseGeneratorToGenerateResponseWhenRequestFactoryRaisesException(): void
     {
