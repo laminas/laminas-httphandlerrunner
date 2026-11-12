@@ -17,10 +17,9 @@ final class MockStreamHelper
     private $trackPeakBufferLength;
 
     /**
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingAnyTypeHint
+     * @param string|callable(int, ?int=): string $contents
      */
     public function __construct(
-        /** @var string|callable(int,?int=null):string */
         private $contents,
         private readonly int $size,
         private int $position,
