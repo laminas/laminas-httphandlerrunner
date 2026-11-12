@@ -11,23 +11,20 @@ use function substr;
 /** @psalm-api Silence "Unused" issues */
 final class MockStreamHelper
 {
-    /** @var string|callable(int,?int=null):string */
-    private $contents; // phpcs:ignore
+    // phpcs:ignore
 
     /** @var null|callable */
     private $trackPeakBufferLength;
 
     /**
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingAnyTypeHint
-     * @param string|callable(int,?int=null):string $contents
+     * @param string|callable(int, ?int=): string $contents
      */
     public function __construct(
-        $contents,
-        private int $size,
+        private $contents,
+        private readonly int $size,
         private int $position,
         ?callable $trackPeakBufferLength = null
     ) {
-        $this->contents              = $contents;
         $this->trackPeakBufferLength = $trackPeakBufferLength;
     }
 
